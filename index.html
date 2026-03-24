@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Modulo Ordine - Easyfibra Srl | Promo Holafibra</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eef2f5;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .order-module {
+            max-width: 1280px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .company-header {
+            background: linear-gradient(135deg, #0b2b44 0%, #124f72 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #f5b042;
+        }
+
+        .company-info h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.25rem;
+        }
+
+        .company-info p {
+            margin: 0.2rem 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .rep-info {
+            background: rgba(255,255,255,0.12);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        .rep-info strong {
+            font-weight: 700;
+            display: block;
+        }
+
+        .form-body {
+            padding: 2rem 2rem 1.8rem;
+        }
+
+        .client-section, .promo-section {
+            background: #f9fcfd;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e0edf3;
+            transition: 0.2s;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f2c3f;
+            border-left: 5px solid #f5b042;
+            padding-left: 1rem;
+            margin-bottom: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group {
+            flex: 1 1 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #1e4a6b;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.7rem 0.9rem;
+            border: 1px solid #cbdde6;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            background: white;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #f5b042;
+            box-shadow: 0 0 0 3px rgba(245,176,66,0.2);
+        }
+
+        .promo-card {
+            background: #fff6e8;
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border: 1px solid #ffdfb3;
+            margin-top: 0.5rem;
+        }
+
+        .promo-badge {
+            background: #f5b042;
+            color: #2c3e2b;
+            font-weight: 800;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+        }
+
+        .free-install {
+            font-weight: 800;
+            color: #1e7b48;
+            font-size: 1rem;
+        }
+
+        .services-table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0 1rem;
+            border-radius: 24px;
+            border: 1px solid #e2edf2;
+            background: white;
+        }
+
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 720px;
+        }
+
+        .services-table th {
+            background: #eef3f7;
+            padding: 1rem 0.8rem;
+            text-align: left;
+            font-weight: 700;
+            color: #0b2b44;
+            border-bottom: 2px solid #d4e2ea;
+        }
+
+        .services-table td {
+            padding: 1rem 0.8rem;
+            border-bottom: 1px solid #eef3f8;
+            vertical-align: middle;
+        }
+
+        .service-name {
+            font-weight: 700;
+            color: #0f3b4f;
+        }
+
+        .service-detail {
+            font-size: 0.7rem;
+            color: #5b7e95;
+        }
+
+        .radio-cell {
+            text-align: center;
+        }
+
+        input[type="radio"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: #f5b042;
+            cursor: pointer;
+        }
+
+        .price {
+            font-weight: 600;
+            color: #1f5e3a;
+            white-space: nowrap;
+        }
+
+        .project-badge {
+            background: #fff0db;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .activation-free {
+            background: #d9f0e3;
+            color: #166534;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        .selected-service-box {
+            background: #fef9e8;
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0 1.5rem;
+            border-left: 6px solid #f5b042;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .order-summary {
+            background: #f2f7fa;
+            border-radius: 24px;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0 1rem;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #cbdde6;
+        }
+
+        .summary-line.total {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: #0b2b44;
+            border-bottom: none;
+            margin-top: 0.4rem;
+            padding-top: 0.8rem;
+        }
+
+        .discount-note {
+            background: #e6f4ea;
+            padding: 0.4rem 1rem;
+            border-radius: 32px;
+            font-size: 0.75rem;
+            color: #1e6f3f;
+            display: inline-block;
+        }
+
+        .legal-note {
+            font-size: 0.7rem;
+            color: #5a6e7a;
+            margin-top: 1rem;
+            text-align: center;
+            border-top: 1px solid #dce5ec;
+            padding-top: 1rem;
+        }
+
+        .sign-area {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .sign-field {
+            flex: 1;
+            border-top: 1px dashed #a0c0cf;
+            padding-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #2c5a74;
+        }
+
+        .btn-submit {
+            background: #0b2b44;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            background: #f5b042;
+            color: #0b2b44;
+            transform: scale(0.97);
+        }
+
+        .email-note {
+            background: #e8f0fe;
+            border-radius: 16px;
+            padding: 0.6rem 1rem;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #1e4a6b;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            background: #f4f9fe;
+            padding: 0.8rem 2rem;
+            font-size: 0.7rem;
+            color: #6c8ea0;
+            text-align: center;
+            border-top: 1px solid #e2edf2;
+        }
+
+        @media (max-width: 680px) {
+            .form-body {
+                padding: 1.2rem;
+            }
+            .company-header {
+                flex-direction: column;
+                align-items: start;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="order-module" id="orderModule">
+    <div class="company-header">
+        <div class="company-info">
+            <h1>Easyfibra Srl</h1>
+            <p>📍 Via Napoleona, 11 – 22100 Como</p>
+            <p>📧 info@easyfibra.it &nbsp;|&nbsp; 📞 +39 031 271180</p>
+        </div>
+        <div class="rep-info">
+            <strong>Sig. Valli Fabrizio</strong>
+            📱 +39 3356489002
+        </div>
+    </div>
+
+    <div class="form-body">
+        <!-- DATI CLIENTE -->
+        <div class="client-section">
+            <div class="section-title">🧾 Dati del Cliente / Intestatario</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nome e Cognome / Ragione Sociale *</label>
+                    <input type="text" id="customerName" placeholder="es. Mario Rossi" value="">
+                </div>
+                <div class="form-group">
+                    <label>Codice Fiscale / P.IVA</label>
+                    <input type="text" id="customerFiscal" placeholder="CF o Partita IVA">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Indirizzo di installazione</label>
+                    <input type="text" id="customerAddress" placeholder="Via, numero, CAP, città">
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="customerEmail" placeholder="cliente@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Telefono / Cellulare</label>
+                    <input type="tel" id="customerPhone" placeholder="+39 333 1234567">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="flex: 2;">
+                    <label>Provenienza / Operatore attuale (opzionale)</label>
+                    <input type="text" id="provenienza" placeholder="Es. Holafibra Srl, TIM, Vodafone, altro..." value="">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>&nbsp;</label>
+                    <div id="holafibraAlert" style="font-size:0.75rem; font-weight:bold; padding:0.4rem 0;"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="flex: 1;">
+                    <label>Note aggiuntive (opzionale)</label>
+                    <textarea id="note" rows="2" placeholder="Eventuali richieste particolari..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOX PROMO HOLAFIBRA -->
+        <div class="promo-section" id="promoSection">
+            <div class="section-title">🎁 Promozioni attive <span class="promo-badge">Limited</span></div>
+            <div class="promo-card" id="promoCard">
+                <div>🔹 <strong>Se provieni da Holafibra Srl</strong>, ottieni <span class="free-install">installazione GRATUITA</span> (costo attivazione €59 azzerato)!</div>
+                <div>✅ Digita "Holafibra Srl" o "Holafibra" nel campo provenienza</div>
+            </div>
+        </div>
+
+        <!-- TABELLA SERVIZI -->
+        <div class="section-title">📡 Scegli il servizio residenziale</div>
+        <div class="services-table-wrapper">
+            <table class="services-table" id="servicesTable">
+                <thead>
+                    <tr>
+                        <th>Seleziona</th>
+                        <th>Tipologia / Tecnologia</th>
+                        <th>Velocità</th>
+                        <th>Attivazione (€)</th>
+                        <th>Canone mensile (€)</th>
+                        <th>Modem (€/mese)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-service='{"name":"FWA Wireless 50 Mbps","activation":59,"monthlyFee":19.90,"modem":3.00,"type":"wireless","speed":"50 Mbps"}'>
+                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fwa50"></td>
+                        <td><span class="service-name">FWA Linea Wireless</span><br><span class="service-detail">Radio residenziale</span></td>
+                        <td>sino a 50 Mbps</td>
+                        <td class="price activation-cell" data-base="59">€ 59,00</td>
+                        <td class="price">€ 19,90</td>
+                        <td class="price">€ 3,00</td>
+                    </tr>
+                    <tr data-service='{"name":"FWA Wireless 300 Mbps","activation":59,"monthlyFee":22.90,"modem":3.00,"type":"wireless","speed":"300 Mbps"}'>
+                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fwa300"></td>
+                        <td><span class="service-name">FWA Linea Wireless</span><br><span class="service-detail">Alta performance</span></td>
+                        <td>sino a 300 Mbps</td>
+                        <td class="price activation-cell" data-base="59">€ 59,00</td>
+                        <td class="price">€ 22,90</td>
+                        <td class="price">€ 3,00</td>
+                    </tr>
+                    <tr data-service='{"name":"FWA Wireless 2800 Mbps","activation":59,"monthlyFee":24.90,"modem":3.00,"type":"wireless","speed":"2800 Mbps"}'>
+                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fwa2800"></td>
+                        <td><span class="service-name">FWA Linea Wireless</span><br><span class="service-detail">Ultra Fast</span></td>
+                        <td>sino a 2800 Mbps</td>
+                        <td class="price activation-cell" data-base="59">€ 59,00</td>
+                        <td class="price">€ 24,90</td>
+                        <td class="price">€ 3,00</td>
+                    </tr>
+                    <tr data-service='{"name":"FTTC Rame","activation":59,"monthlyFee":23.90,"modem":3.00,"type":"fttc","speed":"100 Mbps"}'>
+                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fttc100"></td>
+                        <td><span class="service-name">FTTC connessione rame</span><br><span class="service-detail">VDSL2</span></td>
+                        <td>sino a 100 Mbps</td>
+                        <td class="price activation-cell" data-base="59">€ 59,00</td>
+                        <td class="price">€ 23,90</td>
+                        <td class="price">€ 3,00</td>
+                    </tr>
+                    <tr data-service='{"name":"FTTH Fibra","activation":59,"monthlyFee":24.90,"modem":3.00,"type":"ftth","speed":"2,5 Gbps"}'>
+                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="ftth25"></td>
+                        <td><span class="service-name">FTTH connessione in fibra</span><br><span class="service-detail">GPON / XGS</span></td>
+                        <td>sino a 2,5 Gbps</td>
+                        <td class="price activation-cell" data-base="59">€ 59,00</td>
+                        <td class="price">€ 24,90</td>
+                        <td class="price">€ 3,00</td>
+                    </tr>
+                    <tr data-service='{"name":"Linea Dedicata","activation":0,"monthlyFee":0,"modem":0,"type":"dedicated","project":true}'>
+                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="dedicated"></td>
+                        <td><span class="service-name">Dedicata simmetrica</span><br><span class="service-detail">SLA business</span></td>
+                        <td>sino a 40 Gbps <span class="project-badge">costo a progetto</span></td>
+                        <td colspan="3" class="price">Preventivo personalizzato</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Riepilogo servizio -->
+        <div class="selected-service-box" id="selectedServiceBox">
+            <span class="selected-label">📌 Servizio selezionato:</span>
+            <span class="selected-value" id="selectedServiceName">Nessuna selezione</span>
+            <span id="holaDiscountBadge" class="discount-note" style="display: none;">✨ Installazione gratuita (promo Holafibra)</span>
+        </div>
+
+        <!-- Dettaglio costi -->
+        <div class="order-summary" id="orderSummary">
+            <div class="summary-line"><span>💰 Costo di attivazione (una tantum)</span><span id="activationCost">€ 59,00</span></div>
+            <div class="summary-line"><span>📆 Canone mensile (abbonamento)</span><span id="monthlyFeeSpan">€ 0,00</span></div>
+            <div class="summary-line"><span>📶 Noleggio modem mensile</span><span id="modemFeeSpan">€ 0,00</span></div>
+            <div class="summary-line total"><span>💶 Totale primo mese (attivazione + canone + modem)</span><span id="totalFirstMonth">€ 0,00</span></div>
+            <div class="summary-line"><span>🔄 Canone ricorrente mensile (dal 2° mese)</span><span id="recurringMonth">€ 0,00</span></div>
+            <div id="holaMessageRow" class="summary-line" style="border-bottom: none; color:#2c6e2c; font-size:0.8rem;"></div>
+        </div>
+
+        <div class="legal-note">
+            ✔️ I prezzi sono IVA inclusa. In caso di provenienza da Holafibra Srl, l'attivazione standard di €59 è completamente gratuita.<br>
+            Per la linea Dedicata sino a 40 Gbps verrà proposto un preventivo su misura. Cliccando "Invia ordine via email" verrà aperto il tuo client di posta.
+        </div>
+
+        <div class="sign-area">
+            <div class="sign-field">
+                <label>Data e luogo</label><br>
+                <input type="text" id="signDate" placeholder="__/__/____" style="border:none; border-bottom:1px solid #b3cfdf; background:transparent; width:150px;">
+            </div>
+            <div class="sign-field">
+                <input type="text" id="digitalSignature" placeholder="Firma (digitale o autografa)" style="border:none; border-bottom:1px solid #b3cfdf; width:100%;">
+            </div>
+            <button class="btn-submit" id="submitOrderBtn">📧 Invia ordine via email a info@easyfibra.it</button>
+        </div>
+        
+        <div class="email-note">
+            📧 Cliccando sul pulsante si aprirà il tuo programma di posta con l'email precompilata. Verifica il contenuto e premi "Invia".
+        </div>
+    </div>
+    <footer>
+        Easyfibra Srl - Via Napoleona, 11 – 22100 Como | P.IVA 03678970132 | info@easyfibra.it | Tel. +39 031 271180<br>
+        Rappresentante commerciale: Sig. Valli Fabrizio - Cell. +39 3356489002
+    </footer>
+</div>
+
+<script>
+    (function(){
+        const provenanceInput = document.getElementById('provenienza');
+        const radioButtons = document.querySelectorAll('input[name="serviceChoice"]');
+        const activationCostSpan = document.getElementById('activationCost');
+        const monthlyFeeSpan = document.getElementById('monthlyFeeSpan');
+        const modemFeeSpan = document.getElementById('modemFeeSpan');
+        const totalFirstMonthSpan = document.getElementById('totalFirstMonth');
+        const recurringMonthSpan = document.getElementById('recurringMonth');
+        const selectedServiceNameSpan = document.getElementById('selectedServiceName');
+        const holaDiscountBadge = document.getElementById('holaDiscountBadge');
+        const holaMessageRow = document.getElementById('holaMessageRow');
+        
+        function isHolafibraProvenienza() {
+            const val = provenanceInput.value.trim().toLowerCase();
+            return val.includes('holafibra');
+        }
+
+        function updateActivationCellsDisplay() {
+            const rows = document.querySelectorAll('#servicesTable tbody tr');
+            const holafibraActive = isHolafibraProvenienza();
+            rows.forEach(row => {
+                const activationCell = row.querySelector('.activation-cell');
+                if (activationCell) {
+                    const baseActivation = activationCell.getAttribute('data-base');
+                    if (holafibraActive && baseActivation === '59') {
+                        activationCell.innerHTML = '€ 0,00 <span style="font-size:0.7rem; background:#d4edda; padding:2px 6px; border-radius:30px; margin-left:4px;">GRATIS</span>';
+                        activationCell.style.color = '#1f7b4d';
+                    } else if (baseActivation === '59') {
+                        activationCell.innerHTML = '€ 59,00';
+                        activationCell.style.color = '#1f5e3a';
+                    }
+                }
+            });
+        }
+
+        function updateSummary() {
+            const selectedRadio = document.querySelector('input[name="serviceChoice"]:checked');
+            if (!selectedRadio) {
+                selectedServiceNameSpan.innerText = 'Nessuna selezione';
+                activationCostSpan.innerText = '€ 0,00';
+                monthlyFeeSpan.innerText = '€ 0,00';
+                modemFeeSpan.innerText = '€ 0,00';
+                totalFirstMonthSpan.innerText = '€ 0,00';
+                recurringMonthSpan.innerText = '€ 0,00';
+                holaDiscountBadge.style.display = 'none';
+                holaMessageRow.innerHTML = '';
+                return;
+            }
+
+            const selectedValue = selectedRadio.value;
+            let targetRow = null;
+            const rows = document.querySelectorAll('#servicesTable tbody tr');
+            for (let row of rows) {
+                const radio = row.querySelector('input[type="radio"]');
+                if (radio && radio.value === selectedValue) {
+                    targetRow = row;
+                    break;
+                }
+            }
+            if (!targetRow) return;
+
+            const serviceDataAttr = targetRow.getAttribute('data-service');
+            if (!serviceDataAttr) return;
+            let serviceInfo;
+            try {
+                serviceInfo = JSON.parse(serviceDataAttr);
+            } catch(e) { return; }
+
+            if (serviceInfo.project === true) {
+                selectedServiceNameSpan.innerText = 'Linea Dedicata sino a 40 Gbps (costo a progetto)';
+                activationCostSpan.innerText = 'Su preventivo';
+                monthlyFeeSpan.innerText = 'Su preventivo';
+                modemFeeSpan.innerText = 'Su preventivo';
+                totalFirstMonthSpan.innerText = 'Da definire';
+                recurringMonthSpan.innerText = 'Da definire';
+                holaDiscountBadge.style.display = 'none';
+                holaMessageRow.innerHTML = '📋 Per la linea dedicata contattare il commerciale (preventivo personalizzato)';
+                return;
+            }
+
+            let activation = serviceInfo.activation;
+            const monthly = serviceInfo.monthlyFee;
+            const modem = serviceInfo.modem;
+            const holafibraActive = isHolafibraProvenienza();
+            let originalActivation = activation;
+            if (holafibraActive && activation === 59) {
+                activation = 0;
+            }
+            
+            const firstMonthTotal = activation + monthly + modem;
+            const recurring = monthly + modem;
+
+            let displayName = '';
+            if (serviceInfo.name === 'FWA Wireless 50 Mbps') displayName = 'FWA Wireless sino a 50 Mbps';
+            else if (serviceInfo.name === 'FWA Wireless 300 Mbps') displayName = 'FWA Wireless sino a 300 Mbps';
+            else if (serviceInfo.name === 'FWA Wireless 2800 Mbps') displayName = 'FWA Wireless sino a 2800 Mbps';
+            else if (serviceInfo.name === 'FTTC Rame') displayName = 'FTTC connessione rame sino a 100 Mbps';
+            else if (serviceInfo.name === 'FTTH Fibra') displayName = 'FTTH fibra sino a 2,5 Gbps';
+            else displayName = serviceInfo.name;
+
+            selectedServiceNameSpan.innerText = displayName;
+            
+            if (holafibraActive && originalActivation === 59) {
+                holaDiscountBadge.style.display = 'inline-block';
+                holaMessageRow.innerHTML = '🎉 Promozione Holafibra attiva: costo di attivazione €59 azzerato! Installazione gratuita.';
+                activationCostSpan.innerHTML = `€ 0,00 <span style="font-size:0.7rem;">(gratis promo)</span>`;
+            } else {
+                holaDiscountBadge.style.display = 'none';
+                activationCostSpan.innerHTML = `€ ${originalActivation.toFixed(2)}`;
+                if (!holafibraActive && provenanceInput.value.trim() !== "") {
+                    holaMessageRow.innerHTML = 'ℹ️ Per installazione gratuita, devi provenire da Holafibra Srl (scrivilo nel campo provenienza).';
+                } else if (!holafibraActive) {
+                    holaMessageRow.innerHTML = '';
+                } else {
+                    holaMessageRow.innerHTML = '';
+                }
+            }
+
+            monthlyFeeSpan.innerHTML = `€ ${monthly.toFixed(2)}`;
+            modemFeeSpan.innerHTML = `€ ${modem.toFixed(2)}`;
+            totalFirstMonthSpan.innerHTML = `€ ${firstMonthTotal.toFixed(2)}`;
+            recurringMonthSpan.innerHTML = `€ ${recurring.toFixed(2)}`;
+        }
+
+        function refreshAll() {
+            updateActivationCellsDisplay();
+            updateSummary();
+        }
+
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', refreshAll);
+        });
+
+        provenanceInput.addEventListener('input', function() {
+            refreshAll();
+        });
+
+        refreshAll();
+
+        // INVIO EMAIL tramite mailto
+        const submitBtn = document.getElementById('submitOrderBtn');
+        submitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerEmail = document.getElementById('customerEmail').value.trim();
+            
+            if (!customerName) {
+                alert("⚠️ Inserisci il nome del cliente per procedere.");
+                return;
+            }
+            if (!customerEmail) {
+                alert("⚠️ Inserisci l'email del cliente per poter inviare l'ordine.");
+                return;
+            }
+            
+            const selectedRadio = document.querySelector('input[name="serviceChoice"]:checked');
+            if (!selectedRadio) {
+                alert("⚠️ Seleziona un servizio residenziale o richiedi preventivo per Dedicata.");
+                return;
+            }
+
+            // Raccolta dati
+            const customerFiscal = document.getElementById('customerFiscal').value.trim() || "non indicato";
+            const customerAddress = document.getElementById('customerAddress').value.trim() || "non specificato";
+            const customerPhone = document.getElementById('customerPhone').value.trim() || "-";
+            const signDate = document.getElementById('signDate').value.trim() || new Date().toLocaleDateString('it-IT');
+            const digitalSignature = document.getElementById('digitalSignature').value.trim() || "firma acquisita digitalmente";
+            const provenienza = provenanceInput.value.trim() || "non indicata";
+            const note = document.getElementById('note').value.trim() || "nessuna nota";
+            const holafibraActive = isHolafibraProvenienza();
+
+            // Recupera servizio selezionato
+            let selectedRow = null;
+            for (let row of document.querySelectorAll('#servicesTable tbody tr')) {
+                const radio = row.querySelector('input[type="radio"]');
+                if (radio && radio.checked) { selectedRow = row; break; }
+            }
+            
+            let serviceDesc = "";
+            let activationValue = 59;
+            let monthlyVal = 0, modemVal = 0;
+            let isDedicated = false;
+            let speedInfo = "";
+
+            if (selectedRow) {
+                const dataAttr = selectedRow.getAttribute('data-service');
+                if (dataAttr) {
+                    const svc = JSON.parse(dataAttr);
+                    if (svc.project) {
+                        isDedicated = true;
+                        serviceDesc = "Linea Dedicata sino a 40 Gbps - preventivo su misura";
+                    } else {
+                        activationValue = svc.activation;
+                        monthlyVal = svc.monthlyFee;
+                        modemVal = svc.modem;
+                        speedInfo = svc.speed || "";
+                        if (holafibraActive && activationValue === 59) activationValue = 0;
+                        serviceDesc = `${svc.name} - ${speedInfo} | Attivazione: ${activationValue === 0 ? 'GRATUITA (promo Holafibra)' : '€'+svc.activation.toFixed(2)} | Canone: €${monthlyVal.toFixed(2)}/mese | Modem: €${modemVal.toFixed(2)}/mese`;
+                    }
+                }
+            }
+
+            const promoText = holafibraActive ? "✅ INSTALLAZIONE GRATUITA - promozione provenienza Holafibra Srl applicata (€59 di attivazione azzerati)" : "❌ Nessuna promo installazione attiva (attivazione standard €59)";
+            const totalFirstMonthCalc = !isDedicated ? (activationValue + monthlyVal + modemVal).toFixed(2) : "da definire su preventivo";
+            const recurringCalc = !isDedicated ? (monthlyVal + modemVal).toFixed(2) : "da definire su preventivo";
+
+            // Costruzione corpo email
+            const subject = encodeURIComponent(`NUOVO ORDINE da ${customerName} - Easyfibra Srl`);
+            const body = encodeURIComponent(`
+📄 NUOVO ORDINE DA MODULO WEB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📌 DATI CLIENTE:
+------------------
+Nome / Ragione Sociale: ${customerName}
+Codice Fiscale / P.IVA: ${customerFiscal}
+Indirizzo installazione: ${customerAddress}
+Email: ${customerEmail}
+Telefono: ${customerPhone}
+Provenienza indicata: ${provenienza}
+Data ordine: ${signDate}
+Note aggiuntive: ${note}
+
+📡 SERVIZIO RICHIESTO:
+------------------
+${serviceDesc}
+
+🎁 PROMOZIONE APPLICATA:
+------------------
+${promoText}
+
+💰 DETTAGLIO ECONOMICO (IVA inclusa):
+------------------
+${!isDedicated ? `• Costo attivazione: € ${activationValue.toFixed(2)}
+• Canone mensile: € ${monthlyVal.toFixed(2)}
+• Noleggio modem mensile: € ${modemVal.toFixed(2)}
+• Totale primo mese: € ${totalFirstMonthCalc}
+• Canone ricorrente (dal 2° mese): € ${recurringCalc}` : '• Preventivo personalizzato per linea dedicata'}
+
+✍️ ACCETTAZIONE:
+------------------
+Firma: ${digitalSignature}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generato dal modulo ordine Easyfibra Srl
+Rappresentante: Sig. Valli Fabrizio - Tel. 3356489002
+Easyfibra Srl - Via Napole
