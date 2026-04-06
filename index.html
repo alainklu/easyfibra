@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyFibra - Cloud Version</title>
+    <title>EasyFibra - Gestione IP Cloud</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -114,6 +114,8 @@
         }
         .btn-success { background: #27ae60; }
         .btn-danger { background: #e74c3c; }
+        .btn-warning { background: #f39c12; }
+        .btn-info { background: #3498db; }
         .btn-small { padding: 5px 10px; font-size: 12px; margin: 2px; }
         
         /* Area cards */
@@ -240,11 +242,11 @@
         <div class="container">
             <div class="header">
                 <div>
-                    <h1>📡 EasyFibra - Cloud (Dati su Google Sheets)</h1>
-                    <p style="font-size: 12px; color: #666;">✅ I tuoi dati sono salvati nel cloud e accessibili ovunque!</p>
+                    <h1>📡 EasyFibra - Gestione IP Cloud</h1>
+                    <p style="font-size: 12px; color: #666;">✅ Dati salvati su Google Sheets - Accessibili ovunque!</p>
                 </div>
                 <div>
-                    <span id="syncStatus" style="margin-right: 15px; font-size: 12px;">🟢 Synced</span>
+                    <span id="syncStatus" style="margin-right: 15px; font-size: 12px;">🟢 Locale</span>
                     <button class="logout-btn" onclick="logout()">🚪 Logout</button>
                 </div>
             </div>
@@ -272,14 +274,8 @@
 
             <div id="tabBackup" class="tab-content">
                 <div class="backup-panel">
-                    <h3>💾 Sincronizzazione Cloud</h3>
-                    <p style="margin-bottom: 15px;">I dati sono salvati su Google Sheets. Puoi esportarli o importarli manualmente.</p>
-                    
-                    <div class="form-group">
-                        <label>URL Google Apps Script</label>
-                        <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/AKfycbxAQS2Rn6p-yDdrHnfnP5ANr5tPuS40qylQjjRDcl8KZARxRKrVI0CESY2SXnPjz2it/exec" style="font-size: 12px;">
-                        <small>Ottieni questo URL da Google Apps Script → Deploy → Web app</small>
-                    </div>
+                    <h3>💾 Sincronizzazione Cloud (Google Sheets)</h3>
+                    <p style="margin-bottom: 15px; color: #666;">I tuoi dati sono automaticamente sincronizzati con Google Sheets!</p>
                     
                     <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
                         <button onclick="syncToCloud()" class="btn-success">☁️ Salva nel Cloud</button>
@@ -289,9 +285,9 @@
                     </div>
                     
                     <div class="form-group" style="margin-top: 15px;">
-                        <label>Stato Sincronizzazione</label>
-                        <div id="syncInfo" style="background: #f4f4f4; padding: 10px; border-radius: 5px;">
-                            Non sincronizzato
+                        <label>📊 Stato Sincronizzazione</label>
+                        <div id="syncInfo" style="background: #f4f4f4; padding: 10px; border-radius: 5px; font-size: 12px;">
+                            ⚠️ Configurazione cloud attiva
                         </div>
                     </div>
                 </div>
@@ -311,12 +307,12 @@
             <div class="form-group">
                 <label>CIDR</label>
                 <div class="cidr-options">
-                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(32)">/32</button>
-                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(30)">/30</button>
-                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(29)">/29</button>
-                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(28)">/28</button>
-                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(27)">/27</button>
-                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(26)">/26</button>
+                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(32)">/32 (1 IP)</button>
+                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(30)">/30 (2 IP)</button>
+                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(29)">/29 (6 IP)</button>
+                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(28)">/28 (14 IP)</button>
+                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(27)">/27 (30 IP)</button>
+                    <button type="button" class="cidr-btn" onclick="selezionaCIDR(26)">/26 (62 IP)</button>
                 </div>
             </div>
 
@@ -365,14 +361,17 @@
     <div id="detailsModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="chiudiModalDetails()">&times;</span>
-            <h3>📋 Dettagli</h3>
+            <h3>📋 Dettagli Blocco</h3>
             <div id="detailsContent"></div>
         </div>
     </div>
 
     <script>
-        // CONFIGURAZIONE - INSERISCI IL TUO URL GOOGLE APPS SCRIPT QUI!
-        const DEFAULT_SCRIPT_URL = ""; // METTI QUI IL TUO URL DI GOOGLE APPS SCRIPT
+        // ============================================================
+        // 🔧 URL GOOGLE APPS SCRIPT - GIÀ CONFIGURATO!
+        // ============================================================
+        const DEFAULT_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAQS2Rn6p-yDdrHnfnP5ANr5tPuS40qylQjjRDcl8KZARxRKrVI0CESY2SXnPjz2it/exec";
+        // ============================================================
         
         const ADMIN_USER = 'easyfibra';
         const ADMIN_PASS = 'easy4444';
@@ -441,31 +440,35 @@
         
         function salvaLocale() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(dati));
-            document.getElementById('syncInfo').innerHTML = '📦 Salvato localmente. <button onclick="syncToCloud()" class="btn-small">Sincronizza con Cloud</button>';
+            aggiornaSyncInfo();
         }
         
         function caricaLocale() {
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) dati = JSON.parse(saved);
             else dati = { aree: [] };
+            aggiornaSyncInfo();
         }
         
-        // CLOUD FUNCTIONS
-        function getScriptUrl() {
-            let url = document.getElementById('scriptUrl').value;
-            if (!url && DEFAULT_SCRIPT_URL) url = DEFAULT_SCRIPT_URL;
-            if (!url) {
-                mostraNotifica('Inserisci l\'URL del Google Apps Script nel tab Backup!', 'error');
-                return null;
+        function aggiornaSyncInfo() {
+            const infoDiv = document.getElementById('syncInfo');
+            if (!infoDiv) return;
+            const url = DEFAULT_SCRIPT_URL;
+            infoDiv.innerHTML = `✅ Cloud configurato!<br>📦 Dati locali: ${dati.aree.length} supernet, ${contaBlocchi()} blocchi assegnati<br>🔗 URL: ${url.substring(0, 60)}...`;
+        }
+        
+        function contaBlocchi() {
+            let count = 0;
+            for (const area of dati.aree) {
+                count += Object.keys(area.blocchiAssegnati || {}).length;
             }
-            return url;
+            return count;
         }
         
         async function syncToCloud() {
-            const url = getScriptUrl();
-            if (!url) return;
+            const url = DEFAULT_SCRIPT_URL;
             
-            mostraNotifica('Sincronizzazione in corso...', 'info');
+            mostraNotifica('☁️ Sincronizzazione in corso...', 'info');
             document.getElementById('syncStatus').innerHTML = '🟡 Syncing...';
             
             try {
@@ -477,29 +480,57 @@
                 });
                 
                 mostraNotifica('✅ Dati salvati nel cloud!', 'success');
-                document.getElementById('syncStatus').innerHTML = '🟢 Synced';
-                document.getElementById('syncInfo').innerHTML = '✅ Sincronizzato con Google Sheets!';
+                document.getElementById('syncStatus').innerHTML = '🟢 Cloud Synced';
+                aggiornaSyncInfo();
             } catch(e) {
-                mostraNotifica('Errore: ' + e.message, 'error');
+                mostraNotifica('❌ Errore: ' + e.message, 'error');
                 document.getElementById('syncStatus').innerHTML = '🔴 Error';
             }
         }
         
         async function loadFromCloud() {
-            const url = getScriptUrl();
-            if (!url) return;
+            const url = DEFAULT_SCRIPT_URL;
             
-            mostraNotifica('Caricamento dal cloud...', 'info');
+            mostraNotifica('📥 Caricamento dal cloud...', 'info');
             document.getElementById('syncStatus').innerHTML = '🟡 Loading...';
             
             try {
                 const response = await fetch(`${url}?action=get`);
-                const text = await response.text();
-                // Per no-cors non possiamo leggere la risposta facilmente
-                mostraNotifica('Controlla il Google Sheet per i dati', 'info');
-                document.getElementById('syncStatus').innerHTML = '🟢 Synced';
+                const data = await response.json();
+                if (data.success && data.data) {
+                    const nuoveAree = [];
+                    const areeMap = new Map();
+                    for (const row of data.data) {
+                        if (!areeMap.has(row.ID)) {
+                            areeMap.set(row.ID, {
+                                id: row.ID,
+                                supernet: row.Supernet,
+                                utilizzo: row.Utilizzo,
+                                blocchiAssegnati: {}
+                            });
+                        }
+                        const area = areeMap.get(row.ID);
+                        area.blocchiAssegnati[row.Subnet] = {
+                            cliente: row.Cliente,
+                            indirizzo: row.Indirizzo || '',
+                            telefono: row.Telefono || '',
+                            apparati: row.Apparati ? row.Apparati.split(',') : [],
+                            ipApparato: row.IP_Apparato || null,
+                            dataAssegnazione: row.Data_Assegnazione || new Date().toISOString(),
+                            subnetInfo: calcolaSubnetInfo(row.Subnet)
+                        };
+                    }
+                    dati.aree = Array.from(areeMap.values());
+                    salvaLocale();
+                    renderizzaAree();
+                    mostraNotifica('✅ Dati caricati dal cloud!', 'success');
+                    document.getElementById('syncStatus').innerHTML = '🟢 Synced';
+                } else {
+                    mostraNotifica('⚠️ Nessun dato trovato nel cloud', 'warning');
+                }
             } catch(e) {
-                mostraNotifica('Errore: ' + e.message, 'error');
+                mostraNotifica('❌ Errore: ' + e.message, 'error');
+                document.getElementById('syncStatus').innerHTML = '🔴 Error';
             }
         }
         
@@ -512,7 +543,7 @@
             a.download = `easyfibra_backup_${new Date().toISOString().slice(0,19)}.json`;
             a.click();
             URL.revokeObjectURL(url);
-            mostraNotifica('Backup esportato!', 'success');
+            mostraNotifica('💾 Backup esportato!', 'success');
         }
         
         function importaJSON() {
@@ -529,12 +560,12 @@
                             dati = imported;
                             salvaLocale();
                             renderizzaAree();
-                            mostraNotifica('Importato con successo!', 'success');
+                            mostraNotifica('✅ Importato con successo!', 'success');
                         } else {
-                            mostraNotifica('File non valido', 'error');
+                            mostraNotifica('❌ File non valido', 'error');
                         }
                     } catch(err) {
-                        mostraNotifica('Errore: ' + err.message, 'error');
+                        mostraNotifica('❌ Errore: ' + err.message, 'error');
                     }
                 };
                 reader.readAsText(file);
@@ -552,8 +583,7 @@
                 document.getElementById('mainApp').style.display = 'block';
                 caricaLocale();
                 renderizzaAree();
-                if (DEFAULT_SCRIPT_URL) document.getElementById('scriptUrl').value = DEFAULT_SCRIPT_URL;
-                mostraNotifica('Login effettuato! Usa il tab Backup per sincronizzare con cloud.', 'success');
+                mostraNotifica('✅ Login effettuato! Usa Cloud Sync per salvare i dati.', 'success');
             } else {
                 document.getElementById('loginError').innerText = 'Credenziali errate';
             }
@@ -575,6 +605,7 @@
             } else {
                 document.getElementById('tabBackup').classList.add('active');
                 document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                aggiornaSyncInfo();
             }
         }
         
@@ -590,7 +621,7 @@
             document.getElementById('newAreaIp').value = '';
             document.getElementById('newAreaUtilizzo').value = '';
             renderizzaAree();
-            mostraNotifica(`Supernet ${ip} aggiunta!`, 'success');
+            mostraNotifica(`✅ Supernet ${ip} aggiunta!`, 'success');
         }
         
         function eliminaArea(id) {
@@ -598,6 +629,7 @@
                 dati.aree = dati.aree.filter(a => a.id !== id);
                 salvaLocale();
                 renderizzaAree();
+                mostraNotifica('🗑️ Supernet eliminata', 'info');
             }
         }
         
@@ -710,7 +742,7 @@
             salvaLocale();
             chiudiModalAssign();
             renderizzaAree();
-            mostraNotifica(`${isEdit ? 'Modificato' : 'Assegnato'} ${subnet} a ${nome}`, 'success');
+            mostraNotifica(`${isEdit ? '✏️ Modificato' : '✅ Assegnato'} ${subnet} a ${nome}`, 'success');
         }
         
         function eliminaBlocco(areaId, subnet) {
@@ -719,6 +751,7 @@
                 delete area.blocchiAssegnati[subnet];
                 salvaLocale();
                 renderizzaAree();
+                mostraNotifica('🗑️ Blocco eliminato', 'info');
             }
         }
         
@@ -727,7 +760,97 @@
             const b = area.blocchiAssegnati[subnet];
             const content = document.getElementById('detailsContent');
             content.innerHTML = `
-                <strong>Subnet:</strong> ${subnet}<br>
-                <strong>Network:</strong> ${b.subnetInfo.network}<br>
-                <strong>Broadcast:</strong> ${b.subnetInfo.broadcast}<br>
-                <strong>Cliente:</strong> ${b.cliente}<
+                <strong>📡 Subnet:</strong> ${subnet}<br>
+                <strong>🌐 Network:</strong> ${b.subnetInfo.network}<br>
+                <strong>📡 Broadcast:</strong> ${b.subnetInfo.broadcast}<br>
+                <strong>👤 Cliente:</strong> ${b.cliente}<br>
+                <strong>📍 Indirizzo:</strong> ${b.indirizzo || 'N/D'}<br>
+                <strong>📞 Telefono:</strong> ${b.telefono || 'N/D'}<br>
+                <strong>🖥️ Apparati:</strong> ${b.apparati.join(', ') || 'Nessuno'}<br>
+                <strong>🔌 IP Apparato:</strong> ${b.ipApparato || 'Non specificato'}<br>
+                <strong>📅 Data:</strong> ${new Date(b.dataAssegnazione).toLocaleString()}<br>
+                <hr style="margin: 15px 0;">
+                <button class="btn-small btn-info" onclick="apriModificaBlocco(${areaId}, '${subnet}'); chiudiModalDetails();">✏️ Modifica Blocco</button>
+            `;
+            document.getElementById('detailsModal').style.display = 'block';
+        }
+        
+        function renderizzaAree() {
+            const container = document.getElementById('areeContainer');
+            container.innerHTML = '';
+            
+            if (!dati.aree || dati.aree.length === 0) {
+                container.innerHTML = '<div class="area-card" style="padding:20px; text-align:center;">Nessuna supernet configurata. Aggiungine una!</div>';
+                return;
+            }
+            
+            dati.aree.forEach(area => {
+                const areaCard = document.createElement('div');
+                areaCard.className = 'area-card';
+                
+                const blocchiHtml = Object.entries(area.blocchiAssegnati || {}).map(([subnet, blocco]) => `
+                    <tr class="ip-row block-assigned">
+                        <td><strong>${subnet}</strong><br><span class="block-info">${blocco.subnetInfo.isSingleIP ? 'IP singolo' : `Net: ${blocco.subnetInfo.network}`}</span></td>
+                        <td>${blocco.cliente}${blocco.ipApparato ? `<br><span class="block-info">📡 ${blocco.ipApparato}</span>` : ''}</td>
+                        <td>${blocco.indirizzo || '-'}</td>
+                        <td>${blocco.telefono || '-'}</td>
+                        <td>${blocco.apparati?.join(', ') || '-'}</td>
+                        <td>${new Date(blocco.dataAssegnazione).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn-small btn-info" onclick="apriModificaBlocco(${area.id}, '${subnet}')">✏️</button>
+                            <button class="btn-small" onclick="visualizzaDettagli(${area.id}, '${subnet}')">👁️</button>
+                            <button class="btn-small btn-danger" onclick="eliminaBlocco(${area.id}, '${subnet}')">🗑️</button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                areaCard.innerHTML = `
+                    <div class="area-header" onclick="toggleArea(${area.id})">
+                        <h3>📡 ${area.supernet} - ${area.utilizzo}</h3>
+                        <div class="area-actions">
+                            <button class="btn-small btn-success" onclick="event.stopPropagation(); apriModaleAssegna(${area.id})">➕ Assegna</button>
+                            <button class="btn-small btn-danger" onclick="event.stopPropagation(); eliminaArea(${area.id})">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="area-content" id="area-${area.id}">
+                        ${Object.keys(area.blocchiAssegnati || {}).length === 0 ? 
+                            '<p style="text-align:center; padding:20px;">Nessun blocco assegnato</p>' :
+                            `<table class="ip-table">
+                                <thead><tr><th>Subnet</th><th>Cliente</th><th>Indirizzo</th><th>Telefono</th><th>Apparati</th><th>Data</th><th>Azioni</th></tr></thead>
+                                <tbody>${blocchiHtml}</tbody>
+                            </table>`
+                        }
+                    </div>
+                `;
+                container.appendChild(areaCard);
+            });
+        }
+        
+        function toggleArea(areaId) {
+            const content = document.getElementById(`area-${areaId}`);
+            if (content) content.classList.toggle('active');
+        }
+        
+        function chiudiModalAssign() {
+            document.getElementById('assignModal').style.display = 'none';
+        }
+        
+        function chiudiModalDetails() {
+            document.getElementById('detailsModal').style.display = 'none';
+        }
+        
+        // Check login status
+        if (sessionStorage.getItem('loggedIn') === 'true') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            caricaLocale();
+            renderizzaAree();
+        }
+        
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('assignModal')) chiudiModalAssign();
+            if (event.target === document.getElementById('detailsModal')) chiudiModalDetails();
+        }
+    </script>
+</body>
+</html>
