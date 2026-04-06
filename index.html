@@ -2,8 +2,8 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Modulo Ordine - Easyfibra Srl | Promo Holafibra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyFibra - Gestione IP Completa (Versione Stabile)</title>
     <style>
         * {
             margin: 0;
@@ -12,783 +12,1432 @@
         }
 
         body {
-            background: #eef2f5;
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            padding: 2rem 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Login Screen */
+        .login-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 2000;
         }
 
-        .order-module {
-            max-width: 1280px;
-            width: 100%;
+        .login-box {
             background: white;
-            border-radius: 32px;
-            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            transition: all 0.2s;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 400px;
         }
 
-        .company-header {
-            background: linear-gradient(135deg, #0b2b44 0%, #124f72 100%);
+        .login-box h2 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .login-box .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-box label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
             color: white;
-            padding: 1.5rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-box button:hover {
+            background: #764ba2;
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 4px solid #f5b042;
-        }
-
-        .company-info h1 {
-            font-size: 1.9rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            margin-bottom: 0.25rem;
-        }
-
-        .company-info p {
-            margin: 0.2rem 0;
-            font-size: 0.85rem;
-            opacity: 0.9;
-            display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
         }
 
-        .rep-info {
-            background: rgba(255,255,255,0.12);
-            padding: 0.6rem 1.3rem;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            text-align: right;
+        .header h1 {
+            color: #333;
+            font-size: 24px;
         }
 
-        .rep-info strong {
-            font-weight: 700;
+        .user-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            padding: 8px 15px;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: #ecf0f1;
+            color: #333;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
             display: block;
         }
 
-        .form-body {
-            padding: 2rem 2rem 1.8rem;
+        /* Notifiche */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1500;
+            animation: slideIn 0.3s ease;
+            max-width: 350px;
         }
 
-        .client-section, .promo-section {
-            background: #f9fcfd;
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid #e0edf3;
-            transition: 0.2s;
+        .notification.success {
+            border-left: 4px solid #27ae60;
         }
 
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #0f2c3f;
-            border-left: 5px solid #f5b042;
-            padding-left: 1rem;
-            margin-bottom: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .notification.error {
+            border-left: 4px solid #e74c3c;
         }
 
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            margin-bottom: 1.2rem;
+        .notification.info {
+            border-left: 4px solid #3498db;
+        }
+
+        .notification.warning {
+            border-left: 4px solid #f39c12;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Form */
+        .add-area, .assign-block, .monitoring-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .form-group {
-            flex: 1 1 240px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
+            margin-bottom: 15px;
         }
 
-        .form-group label {
-            font-weight: 600;
-            color: #1e4a6b;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
-            padding: 0.7rem 0.9rem;
-            border: 1px solid #cbdde6;
-            border-radius: 18px;
-            font-size: 0.9rem;
-            background: white;
-            transition: 0.2s;
-            font-family: inherit;
-        }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #f5b042;
-            box-shadow: 0 0 0 3px rgba(245,176,66,0.2);
-        }
-
-        .promo-card {
-            background: #fff6e8;
-            border-radius: 20px;
-            padding: 1rem 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            border: 1px solid #ffdfb3;
-            margin-top: 0.5rem;
-        }
-
-        .promo-badge {
-            background: #f5b042;
-            color: #2c3e2b;
-            font-weight: 800;
-            padding: 0.3rem 1rem;
-            border-radius: 60px;
-            font-size: 0.75rem;
-        }
-
-        .free-install {
-            font-weight: 800;
-            color: #1e7b48;
-            font-size: 1rem;
-        }
-
-        .services-table-wrapper {
-            overflow-x: auto;
-            margin: 1.5rem 0 1rem;
-            border-radius: 24px;
-            border: 1px solid #e2edf2;
-            background: white;
-        }
-
-        .services-table {
+        input, select, textarea {
             width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            min-width: 720px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
-        .services-table th {
-            background: #eef3f7;
-            padding: 1rem 0.8rem;
-            text-align: left;
-            font-weight: 700;
-            color: #0b2b44;
-            border-bottom: 2px solid #d4e2ea;
-        }
-
-        .services-table td {
-            padding: 1rem 0.8rem;
-            border-bottom: 1px solid #eef3f8;
-            vertical-align: middle;
-        }
-
-        .service-name {
-            font-weight: 700;
-            color: #0f3b4f;
-        }
-
-        .service-detail {
-            font-size: 0.7rem;
-            color: #5b7e95;
-        }
-
-        .radio-cell {
-            text-align: center;
-        }
-
-        input[type="radio"] {
-            width: 1.2rem;
-            height: 1.2rem;
-            accent-color: #f5b042;
-            cursor: pointer;
-        }
-
-        .price {
-            font-weight: 600;
-            color: #1f5e3a;
-            white-space: nowrap;
-        }
-
-        .project-badge {
-            background: #fff0db;
-            padding: 0.2rem 0.6rem;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-
-        .activation-free {
-            background: #d9f0e3;
-            color: #166534;
-            font-weight: 600;
-            padding: 0.2rem 0.6rem;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            display: inline-block;
-        }
-
-        .selected-service-box {
-            background: #fef9e8;
-            border-radius: 20px;
-            padding: 1rem 1.5rem;
-            margin: 1rem 0 1.5rem;
-            border-left: 6px solid #f5b042;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .order-summary {
-            background: #f2f7fa;
-            border-radius: 24px;
-            padding: 1.2rem 1.5rem;
-            margin: 1rem 0 1rem;
-        }
-
-        .summary-line {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed #cbdde6;
-        }
-
-        .summary-line.total {
-            font-weight: 800;
-            font-size: 1.15rem;
-            color: #0b2b44;
-            border-bottom: none;
-            margin-top: 0.4rem;
-            padding-top: 0.8rem;
-        }
-
-        .discount-note {
-            background: #e6f4ea;
-            padding: 0.4rem 1rem;
-            border-radius: 32px;
-            font-size: 0.75rem;
-            color: #1e6f3f;
-            display: inline-block;
-        }
-
-        .legal-note {
-            font-size: 0.7rem;
-            color: #5a6e7a;
-            margin-top: 1rem;
-            text-align: center;
-            border-top: 1px solid #dce5ec;
-            padding-top: 1rem;
-        }
-
-        .sign-area {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 2rem;
-            gap: 1rem;
-        }
-
-        .sign-field {
-            flex: 1;
-            border-top: 1px dashed #a0c0cf;
-            padding-top: 0.5rem;
-            font-size: 0.75rem;
-            color: #2c5a74;
-        }
-
-        .btn-submit {
-            background: #0b2b44;
+        button {
+            background: #667eea;
             color: white;
             border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: 0.2s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 14px;
+            transition: background 0.3s;
         }
 
-        .btn-submit:hover {
-            background: #f5b042;
-            color: #0b2b44;
-            transform: scale(0.97);
+        button:hover {
+            background: #764ba2;
         }
 
-        .email-note {
-            background: #e8f0fe;
-            border-radius: 16px;
-            padding: 0.6rem 1rem;
-            margin-top: 1rem;
-            font-size: 0.75rem;
-            color: #1e4a6b;
-            text-align: center;
+        .btn-danger {
+            background: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+            margin: 2px;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+
+        .btn-info {
+            background: #3498db;
+        }
+
+        .btn-info:hover {
+            background: #2980b9;
+        }
+
+        /* Aree IP */
+        .area-card {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .area-header {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            cursor: pointer;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        footer {
-            background: #f4f9fe;
-            padding: 0.8rem 2rem;
-            font-size: 0.7rem;
-            color: #6c8ea0;
-            text-align: center;
-            border-top: 1px solid #e2edf2;
+        .area-header h3 {
+            margin: 0;
         }
 
-        @media (max-width: 680px) {
-            .form-body {
-                padding: 1.2rem;
+        .area-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .area-content {
+            padding: 20px;
+            display: none;
+            overflow-x: auto;
+        }
+
+        .area-content.active {
+            display: block;
+        }
+
+        /* Tabella IP */
+        .ip-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            min-width: 800px;
+        }
+
+        .ip-table th, .ip-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .ip-table th {
+            background: #f4f4f4;
+            font-weight: bold;
+        }
+
+        .ip-row {
+            transition: background 0.3s;
+        }
+
+        .ip-row:hover {
+            background: #f9f9f9;
+        }
+
+        .block-assigned {
+            background-color: #e8f5e9;
+        }
+
+        .block-info {
+            font-size: 11px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .error-border {
+            border-color: #e74c3c !important;
+            background-color: #ffeaea !important;
+        }
+
+        /* Modale */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        /* Apparati */
+        .apparati-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .apparato-badge {
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .cidr-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cidr-btn {
+            background: #ecf0f1;
+            color: #333;
+            border: 2px solid #bdc3c7;
+        }
+
+        .cidr-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Monitoring */
+        .monitoring-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .monitoring-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .monitoring-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .monitoring-card h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .ping-result {
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .debug-panel {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 11px;
+            font-family: monospace;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .ip-table {
+                font-size: 11px;
             }
-            .company-header {
-                flex-direction: column;
-                align-items: start;
-                gap: 0.8rem;
+            
+            .ip-table th, .ip-table td {
+                padding: 5px;
+            }
+            
+            button {
+                padding: 5px 10px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
             }
         }
     </style>
 </head>
 <body>
-<div class="order-module" id="orderModule">
-    <div class="company-header">
-        <div class="company-info">
-            <h1>Easyfibra Srl</h1>
-            <p>📍 Via Napoleona, 11 – 22100 Como</p>
-            <p>📧 info@easyfibra.it &nbsp;|&nbsp; 📞 +39 031 271180</p>
-        </div>
-        <div class="rep-info">
-            <strong>Sig. Valli Fabrizio</strong>
-            📱 +39 3356489002
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <h2>🔐 EasyFibra Admin</h2>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="loginUsername" placeholder="easyfibra" value="easyfibra">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="••••••" value="easy4444">
+            </div>
+            <button onclick="login()">Accedi</button>
+            <div id="loginError" class="error-msg"></div>
         </div>
     </div>
 
-    <div class="form-body">
-        <!-- DATI CLIENTE -->
-        <div class="client-section">
-            <div class="section-title">🧾 Dati del Cliente / Intestatario</div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Nome e Cognome / Ragione Sociale *</label>
-                    <input type="text" id="customerName" placeholder="es. Mario Rossi" value="">
+    <!-- Main App -->
+    <div id="mainApp" style="display: none;">
+        <div class="container">
+            <div class="header">
+                <div>
+                    <h1>📡 EasyFibra - Gestione IP Completa</h1>
+                    <p style="font-size: 12px; color: #666; margin-top: 5px;">Controllo automatico sovrapposizione IP - Modifica clienti</p>
                 </div>
-                <div class="form-group">
-                    <label>Codice Fiscale / P.IVA</label>
-                    <input type="text" id="customerFiscal" placeholder="CF o Partita IVA">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Indirizzo di installazione</label>
-                    <input type="text" id="customerAddress" placeholder="Via, numero, CAP, città">
-                </div>
-                <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" id="customerEmail" placeholder="cliente@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Telefono / Cellulare</label>
-                    <input type="tel" id="customerPhone" placeholder="+39 333 1234567">
+                <div class="user-info">
+                    <span>👤 Admin: easyfibra</span>
+                    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group" style="flex: 2;">
-                    <label>Provenienza / Operatore attuale (opzionale)</label>
-                    <input type="text" id="provenienza" placeholder="Es. Holafibra Srl, TIM, Vodafone, altro..." value="">
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>&nbsp;</label>
-                    <div id="holafibraAlert" style="font-size:0.75rem; font-weight:bold; padding:0.4rem 0;"></div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group" style="flex: 1;">
-                    <label>Note aggiuntive (opzionale)</label>
-                    <textarea id="note" rows="2" placeholder="Eventuali richieste particolari..."></textarea>
-                </div>
-            </div>
-        </div>
 
-        <!-- BOX PROMO HOLAFIBRA -->
-        <div class="promo-section" id="promoSection">
-            <div class="section-title">🎁 Promozioni attive <span class="promo-badge">Limited</span></div>
-            <div class="promo-card" id="promoCard">
-                <div>🔹 <strong>Se provieni da Holafibra Srl</strong>, ottieni <span class="free-install">installazione GRATUITA</span> (costo attivazione €59 azzerato)!</div>
-                <div>✅ Digita "Holafibra Srl" o "Holafibra" nel campo provenienza</div>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('gestione')">📋 Gestione IP</button>
+                <button class="tab-btn" onclick="switchTab('monitoring')">🖥️ Monitoring Apparati</button>
+                <button class="tab-btn" onclick="switchTab('liberi')">🔍 IP Liberi</button>
             </div>
-        </div>
 
-        <!-- TABELLA SERVIZI -->
-        <div class="section-title">📡 Scegli il servizio residenziale</div>
-        <div class="services-table-wrapper">
-            <table class="services-table" id="servicesTable">
-                <thead>
-                    <tr>
-                        <th>Seleziona</th>
-                        <th>Tipologia / Tecnologia</th>
-                        <th>Velocità</th>
-                        <th>Attivazione (€)</th>
-                        <th>Canone mensile (€)</th>
-                        <th>Modem (€/mese)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-service='{"name":"FWA Wireless 50 Mbps","activation":59,"monthlyFee":19.90,"modem":3.00,"type":"wireless","speed":"50 Mbps"}'>
-                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fwa50"></td>
-                        <td><span class="service-name">FWA Linea Wireless</span><br><span class="service-detail">Radio residenziale</span></td>
-                        <td>sino a 50 Mbps</td>
-                        <td class="price activation-cell" data-base="59">€ 59,00</td>
-                        <td class="price">€ 19,90</td>
-                        <td class="price">€ 3,00</td>
-                    </tr>
-                    <tr data-service='{"name":"FWA Wireless 300 Mbps","activation":59,"monthlyFee":22.90,"modem":3.00,"type":"wireless","speed":"300 Mbps"}'>
-                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fwa300"></td>
-                        <td><span class="service-name">FWA Linea Wireless</span><br><span class="service-detail">Alta performance</span></td>
-                        <td>sino a 300 Mbps</td>
-                        <td class="price activation-cell" data-base="59">€ 59,00</td>
-                        <td class="price">€ 22,90</td>
-                        <td class="price">€ 3,00</td>
-                    </tr>
-                    <tr data-service='{"name":"FWA Wireless 2800 Mbps","activation":59,"monthlyFee":24.90,"modem":3.00,"type":"wireless","speed":"2800 Mbps"}'>
-                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fwa2800"></td>
-                        <td><span class="service-name">FWA Linea Wireless</span><br><span class="service-detail">Ultra Fast</span></td>
-                        <td>sino a 2800 Mbps</td>
-                        <td class="price activation-cell" data-base="59">€ 59,00</td>
-                        <td class="price">€ 24,90</td>
-                        <td class="price">€ 3,00</td>
-                    </tr>
-                    <tr data-service='{"name":"FTTC Rame","activation":59,"monthlyFee":23.90,"modem":3.00,"type":"fttc","speed":"100 Mbps"}'>
-                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="fttc100"></td>
-                        <td><span class="service-name">FTTC connessione rame</span><br><span class="service-detail">VDSL2</span></td>
-                        <td>sino a 100 Mbps</td>
-                        <td class="price activation-cell" data-base="59">€ 59,00</td>
-                        <td class="price">€ 23,90</td>
-                        <td class="price">€ 3,00</td>
-                    </tr>
-                    <tr data-service='{"name":"FTTH Fibra","activation":59,"monthlyFee":24.90,"modem":3.00,"type":"ftth","speed":"2,5 Gbps"}'>
-                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="ftth25"></td>
-                        <td><span class="service-name">FTTH connessione in fibra</span><br><span class="service-detail">GPON / XGS</span></td>
-                        <td>sino a 2,5 Gbps</td>
-                        <td class="price activation-cell" data-base="59">€ 59,00</td>
-                        <td class="price">€ 24,90</td>
-                        <td class="price">€ 3,00</td>
-                    </tr>
-                    <tr data-service='{"name":"Linea Dedicata","activation":0,"monthlyFee":0,"modem":0,"type":"dedicated","project":true}'>
-                        <td class="radio-cell"><input type="radio" name="serviceChoice" value="dedicated"></td>
-                        <td><span class="service-name">Dedicata simmetrica</span><br><span class="service-detail">SLA business</span></td>
-                        <td>sino a 40 Gbps <span class="project-badge">costo a progetto</span></td>
-                        <td colspan="3" class="price">Preventivo personalizzato</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- Tab Gestione -->
+            <div id="tabGestione" class="tab-content active">
+                <div class="add-area">
+                    <h3>➕ Nuova Supernet</h3>
+                    <div class="form-group">
+                        <label>Supernet di riferimento (es: 10.0.0.0/24)</label>
+                        <input type="text" id="newAreaIp" placeholder="es: 10.0.0.0/24">
+                    </div>
+                    <div class="form-group">
+                        <label>Area di utilizzo</label>
+                        <input type="text" id="newAreaUtilizzo" placeholder="es: Data Center Nord, Sede Roma">
+                    </div>
+                    <button onclick="aggiungiArea()">➕ Aggiungi Supernet</button>
+                </div>
 
-        <!-- Riepilogo servizio -->
-        <div class="selected-service-box" id="selectedServiceBox">
-            <span class="selected-label">📌 Servizio selezionato:</span>
-            <span class="selected-value" id="selectedServiceName">Nessuna selezione</span>
-            <span id="holaDiscountBadge" class="discount-note" style="display: none;">✨ Installazione gratuita (promo Holafibra)</span>
-        </div>
-
-        <!-- Dettaglio costi -->
-        <div class="order-summary" id="orderSummary">
-            <div class="summary-line"><span>💰 Costo di attivazione (una tantum)</span><span id="activationCost">€ 59,00</span></div>
-            <div class="summary-line"><span>📆 Canone mensile (abbonamento)</span><span id="monthlyFeeSpan">€ 0,00</span></div>
-            <div class="summary-line"><span>📶 Noleggio modem mensile</span><span id="modemFeeSpan">€ 0,00</span></div>
-            <div class="summary-line total"><span>💶 Totale primo mese (attivazione + canone + modem)</span><span id="totalFirstMonth">€ 0,00</span></div>
-            <div class="summary-line"><span>🔄 Canone ricorrente mensile (dal 2° mese)</span><span id="recurringMonth">€ 0,00</span></div>
-            <div id="holaMessageRow" class="summary-line" style="border-bottom: none; color:#2c6e2c; font-size:0.8rem;"></div>
-        </div>
-
-        <div class="legal-note">
-            ✔️ I prezzi sono IVA inclusa. In caso di provenienza da Holafibra Srl, l'attivazione standard di €59 è completamente gratuita.<br>
-            Per la linea Dedicata sino a 40 Gbps verrà proposto un preventivo su misura. Cliccando "Invia ordine via email" verrà aperto il tuo client di posta.
-        </div>
-
-        <div class="sign-area">
-            <div class="sign-field">
-                <label>Data e luogo</label><br>
-                <input type="text" id="signDate" placeholder="__/__/____" style="border:none; border-bottom:1px solid #b3cfdf; background:transparent; width:150px;">
+                <div id="areeContainer"></div>
             </div>
-            <div class="sign-field">
-                <input type="text" id="digitalSignature" placeholder="Firma (digitale o autografa)" style="border:none; border-bottom:1px solid #b3cfdf; width:100%;">
+
+            <!-- Tab Monitoring -->
+            <div id="tabMonitoring" class="tab-content">
+                <div class="monitoring-panel">
+                    <h3>🖥️ Monitoring Apparati Clienti</h3>
+                    <button onclick="pingTuttiApparati()" class="btn-success">🔄 Ping a Tutti gli Apparati</button>
+                    <div id="monitoringContainer" class="monitoring-grid"></div>
+                </div>
             </div>
-            <button class="btn-submit" id="submitOrderBtn">📧 Invia ordine via email a info@easyfibra.it</button>
-        </div>
-        
-        <div class="email-note">
-            📧 Cliccando sul pulsante si aprirà il tuo programma di posta con l'email precompilata. Verifica il contenuto e premi "Invia".
+
+            <!-- Tab IP Liberi -->
+            <div id="tabLiberi" class="tab-content">
+                <div class="monitoring-panel">
+                    <h3>🔍 IP Liberi nelle Supernet</h3>
+                    <div id="liberiContainer"></div>
+                </div>
+            </div>
         </div>
     </div>
-    <footer>
-        Easyfibra Srl - Via Napoleona, 11 – 22100 Como | P.IVA 03678970132 | info@easyfibra.it | Tel. +39 031 271180<br>
-        Rappresentante commerciale: Sig. Valli Fabrizio - Cell. +39 3356489002
-    </footer>
-</div>
 
-<script>
-    (function(){
-        const provenanceInput = document.getElementById('provenienza');
-        const radioButtons = document.querySelectorAll('input[name="serviceChoice"]');
-        const activationCostSpan = document.getElementById('activationCost');
-        const monthlyFeeSpan = document.getElementById('monthlyFeeSpan');
-        const modemFeeSpan = document.getElementById('modemFeeSpan');
-        const totalFirstMonthSpan = document.getElementById('totalFirstMonth');
-        const recurringMonthSpan = document.getElementById('recurringMonth');
-        const selectedServiceNameSpan = document.getElementById('selectedServiceName');
-        const holaDiscountBadge = document.getElementById('holaDiscountBadge');
-        const holaMessageRow = document.getElementById('holaMessageRow');
-        
-        function isHolafibraProvenienza() {
-            const val = provenanceInput.value.trim().toLowerCase();
-            return val.includes('holafibra');
+    <!-- Modale assegnazione blocco CIDR -->
+    <div id="assignModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="chiudiModalAssign()">&times;</span>
+            <h3 id="modalTitle">Assegna Blocco CIDR</h3>
+            <input type="hidden" id="currentAreaId">
+            <input type="hidden" id="isEditMode" value="false">
+            <input type="hidden" id="editSubnet">
+            
+            <div class="form-group">
+                <label>Seleziona CIDR</label>
+                <div class="cidr-options">
+                    <button type="button" class="cidr-btn" data-cidr="32" onclick="selezionaCIDR(32)">/32 (1 IP)</button>
+                    <button type="button" class="cidr-btn" data-cidr="30" onclick="selezionaCIDR(30)">/30 (2 IP)</button>
+                    <button type="button" class="cidr-btn" data-cidr="29" onclick="selezionaCIDR(29)">/29 (6 IP)</button>
+                    <button type="button" class="cidr-btn" data-cidr="28" onclick="selezionaCIDR(28)">/28 (14 IP)</button>
+                    <button type="button" class="cidr-btn" data-cidr="27" onclick="selezionaCIDR(27)">/27 (30 IP)</button>
+                    <button type="button" class="cidr-btn" data-cidr="26" onclick="selezionaCIDR(26)">/26 (62 IP)</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Subnet da assegnare (es: 10.0.0.0/30)</label>
+                <input type="text" id="subnetAddress" placeholder="es: 10.0.0.0/30">
+                <div class="block-info" id="subnetInfo"></div>
+                <div class="block-info" id="conflictWarning" style="color: #e74c3c; margin-top: 5px;"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Nome Cliente *</label>
+                <input type="text" id="clienteNome">
+            </div>
+
+            <div class="form-group">
+                <label>Indirizzo</label>
+                <input type="text" id="clienteIndirizzo">
+            </div>
+
+            <div class="form-group">
+                <label>Telefono</label>
+                <input type="text" id="clienteTelefono">
+            </div>
+
+            <div class="form-group">
+                <label>Apparati (max 3)</label>
+                <div class="apparati-list">
+                    <button type="button" onclick="aggiungiApparatoAssign('Ubiquiti')" class="btn-small">Ubiquiti</button>
+                    <button type="button" onclick="aggiungiApparatoAssign('Mikrotik')" class="btn-small">Mikrotik</button>
+                    <button type="button" onclick="aggiungiApparatoAssign('Cambium')" class="btn-small">Cambium</button>
+                    <button type="button" onclick="aggiungiApparatoAssign('Altro')" class="btn-small">Altro</button>
+                </div>
+                <div id="apparatiSelezionatiAssign"></div>
+            </div>
+
+            <div class="form-group">
+                <label>IP dell'apparato per ping (opzionale)</label>
+                <input type="text" id="ipApparato" placeholder="es: 10.0.0.1">
+            </div>
+
+            <div class="toggle-switch">
+                <input type="checkbox" id="notificaEmailAssign" checked>
+                <label>Invia notifica email</label>
+            </div>
+
+            <button onclick="salvaAssegnazioneBlocco()" class="btn-success" id="saveButton">💾 Assegna Blocco</button>
+        </div>
+    </div>
+
+    <!-- Modale modifica cliente -->
+    <div id="editClienteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="chiudiEditModal()">&times;</span>
+            <h3>✏️ Modifica Dati Cliente</h3>
+            <input type="hidden" id="editAreaId">
+            <input type="hidden" id="editSubnetId">
+            
+            <div class="form-group">
+                <label>Nome Cliente *</label>
+                <input type="text" id="editClienteNome">
+            </div>
+
+            <div class="form-group">
+                <label>Indirizzo</label>
+                <input type="text" id="editClienteIndirizzo">
+            </div>
+
+            <div class="form-group">
+                <label>Telefono</label>
+                <input type="text" id="editClienteTelefono">
+            </div>
+
+            <div class="form-group">
+                <label>IP Apparato</label>
+                <input type="text" id="editIpApparato">
+            </div>
+
+            <button onclick="salvaModificaCliente()" class="btn-success">💾 Salva Modifiche</button>
+        </div>
+    </div>
+
+    <!-- Modale dettagli -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="chiudiModalDetails()">&times;</span>
+            <h3>📋 Dettagli Blocco</h3>
+            <div id="detailsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configurazione
+        const ADMIN_USER = 'easyfibra';
+        const ADMIN_PASS = 'easy4444';
+        const STORAGE_KEY = 'easyfibra_ip_management_v3';
+
+        let isLoggedIn = false;
+        let dati = { aree: [] };
+        let apparatiTempAssign = [];
+        let currentNotification = null;
+
+        // Funzioni di utilità
+        function mostraNotifica(messaggio, tipo = 'info') {
+            if (currentNotification) currentNotification.remove();
+            
+            const notifica = document.createElement('div');
+            notifica.className = `notification ${tipo}`;
+            notifica.innerHTML = `<strong>${tipo === 'success' ? '✅' : tipo === 'error' ? '❌' : tipo === 'warning' ? '⚠️' : 'ℹ️'}</strong><span style="margin-left: 10px;">${messaggio}</span>`;
+            document.body.appendChild(notifica);
+            currentNotification = notifica;
+            
+            setTimeout(() => {
+                if (notifica) notifica.remove();
+                if (currentNotification === notifica) currentNotification = null;
+            }, 4000);
         }
 
-        function updateActivationCellsDisplay() {
-            const rows = document.querySelectorAll('#servicesTable tbody tr');
-            const holafibraActive = isHolafibraProvenienza();
-            rows.forEach(row => {
-                const activationCell = row.querySelector('.activation-cell');
-                if (activationCell) {
-                    const baseActivation = activationCell.getAttribute('data-base');
-                    if (holafibraActive && baseActivation === '59') {
-                        activationCell.innerHTML = '€ 0,00 <span style="font-size:0.7rem; background:#d4edda; padding:2px 6px; border-radius:30px; margin-left:4px;">GRATIS</span>';
-                        activationCell.style.color = '#1f7b4d';
-                    } else if (baseActivation === '59') {
-                        activationCell.innerHTML = '€ 59,00';
-                        activationCell.style.color = '#1f5e3a';
+        function debugLog(msg) {
+            console.log('[DEBUG]', msg);
+        }
+
+        // Conversioni IP
+        function ipToInt(ip) {
+            const parts = ip.split('.');
+            return (parseInt(parts[0]) << 24) | (parseInt(parts[1]) << 16) | (parseInt(parts[2]) << 8) | parseInt(parts[3]);
+        }
+
+        function intToIp(int) {
+            return `${(int >>> 24) & 255}.${(int >>> 16) & 255}.${(int >>> 8) & 255}.${int & 255}`;
+        }
+
+        // Calcola informazioni subnet
+        function calcolaSubnetInfo(subnet) {
+            const match = subnet.match(/^(\d{1,3}\.){3}\d{1,3}\/(3[0-2]|[12]?[0-9])$/);
+            if (!match) return null;
+            
+            const [ip, mask] = subnet.split('/');
+            const maskNum = parseInt(mask);
+            const ipParts = ip.split('.').map(n => parseInt(n));
+            
+            if (maskNum === 32) {
+                const ipInt = ipToInt(ip);
+                return {
+                    network: ip,
+                    broadcast: ip,
+                    totalIPs: 1,
+                    usableIPs: 1,
+                    firstUsable: ip,
+                    lastUsable: ip,
+                    isSingleIP: true,
+                    startInt: ipInt,
+                    endInt: ipInt
+                };
+            }
+            
+            const hostBits = 32 - maskNum;
+            const maskInt = 0xFFFFFFFF << (32 - maskNum);
+            let ipInt = (ipParts[0] << 24) | (ipParts[1] << 16) | (ipParts[2] << 8) | ipParts[3];
+            let networkInt = ipInt & maskInt;
+            let broadcastInt = networkInt | (~maskInt >>> 0);
+            
+            return {
+                network: intToIp(networkInt),
+                broadcast: intToIp(broadcastInt),
+                totalIPs: Math.pow(2, hostBits),
+                usableIPs: Math.pow(2, hostBits) - 2,
+                firstUsable: intToIp(networkInt + 1),
+                lastUsable: intToIp(broadcastInt - 1),
+                isSingleIP: false,
+                startInt: networkInt,
+                endInt: broadcastInt
+            };
+        }
+
+        // Verifica conflitto
+        function verificaConflittoBlocco(area, subnet, excludeSubnet = null) {
+            const newInfo = calcolaSubnetInfo(subnet);
+            if (!newInfo) return { conflitto: true, messaggio: 'Formato subnet non valido' };
+            
+            for (let existingSubnet in area.blocchiAssegnati) {
+                if (excludeSubnet === existingSubnet) continue;
+                
+                const existingInfo = calcolaSubnetInfo(existingSubnet);
+                if (!existingInfo) continue;
+                
+                if (!(newInfo.endInt < existingInfo.startInt || newInfo.startInt > existingInfo.endInt)) {
+                    const bloccoEsistente = area.blocchiAssegnati[existingSubnet];
+                    return {
+                        conflitto: true,
+                        messaggio: `❌ Si sovrappone con ${existingSubnet} (${bloccoEsistente.cliente})`
+                    };
+                }
+            }
+            
+            return { conflitto: false, messaggio: '✅ Disponibile' };
+        }
+
+        // SALVATAGGIO DATI - Funzione critica
+        function salvaDati() {
+            try {
+                const jsonData = JSON.stringify(dati);
+                localStorage.setItem(STORAGE_KEY, jsonData);
+                debugLog('Dati salvati con successo! Aree: ' + dati.aree.length);
+                console.log('Dati salvati:', dati);
+                return true;
+            } catch (e) {
+                console.error('Errore salvataggio:', e);
+                mostraNotifica('Errore nel salvataggio dei dati!', 'error');
+                return false;
+            }
+        }
+
+        // CARICAMENTO DATI
+        function caricaDati() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    dati = JSON.parse(saved);
+                    debugLog('Dati caricati! Aree: ' + dati.aree.length);
+                } else {
+                    dati = { aree: [] };
+                    debugLog('Nessun dato salvato, inizializzazione vuota');
+                    // Crea dati demo per test
+                    if (dati.aree.length === 0) {
+                        const demoArea = {
+                            id: Date.now(),
+                            supernet: '192.168.1.0/24',
+                            utilizzo: 'Area Demo',
+                            blocchiAssegnati: {}
+                        };
+                        dati.aree.push(demoArea);
+                        salvaDati();
+                        debugLog('Creato area demo');
                     }
+                }
+                return true;
+            } catch (e) {
+                console.error('Errore caricamento:', e);
+                dati = { aree: [] };
+                return false;
+            }
+        }
+
+        // Login
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (username === ADMIN_USER && password === ADMIN_PASS) {
+                isLoggedIn = true;
+                sessionStorage.setItem('loggedIn', 'true');
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                caricaDati();
+                renderizzaAree();
+                mostraNotifica('Login effettuato con successo!', 'success');
+            } else {
+                document.getElementById('loginError').innerText = 'Credenziali non valide';
+                mostraNotifica('Credenziali non valide', 'error');
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            sessionStorage.removeItem('loggedIn');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            mostraNotifica('Logout effettuato', 'info');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if (tab === 'gestione') {
+                document.getElementById('tabGestione').classList.add('active');
+                document.querySelector('.tab-btn').classList.add('active');
+            } else if (tab === 'monitoring') {
+                document.getElementById('tabMonitoring').classList.add('active');
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                caricaMonitoring();
+            } else if (tab === 'liberi') {
+                document.getElementById('tabLiberi').classList.add('active');
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                mostraIPLiberi();
+            }
+        }
+
+        function aggiungiArea() {
+            const ip = document.getElementById('newAreaIp').value.trim();
+            const utilizzo = document.getElementById('newAreaUtilizzo').value.trim();
+            
+            if (!ip || !utilizzo) {
+                mostraNotifica('Compila tutti i campi', 'error');
+                return;
+            }
+            
+            const ipPattern = /^(\d{1,3}\.){3}\d{1,3}\/(3[0-2]|[12]?[0-9])$/;
+            if (!ipPattern.test(ip)) {
+                mostraNotifica('Formato IP non valido. Es: 192.168.1.0/24', 'error');
+                return;
+            }
+            
+            const nuovaArea = {
+                id: Date.now(),
+                supernet: ip,
+                utilizzo: utilizzo,
+                blocchiAssegnati: {}
+            };
+            
+            dati.aree.push(nuovaArea);
+            
+            if (salvaDati()) {
+                document.getElementById('newAreaIp').value = '';
+                document.getElementById('newAreaUtilizzo').value = '';
+                renderizzaAree();
+                mostraNotifica(`Supernet ${ip} aggiunta con successo!`, 'success');
+            }
+        }
+        
+        function eliminaArea(areaId) {
+            if (confirm('Eliminare questa supernet e tutti i blocchi?')) {
+                const areaIndex = dati.aree.findIndex(a => a.id === areaId);
+                if (areaIndex !== -1) {
+                    const area = dati.aree[areaIndex];
+                    dati.aree.splice(areaIndex, 1);
+                    if (salvaDati()) {
+                        renderizzaAree();
+                        mostraNotifica(`Supernet ${area.supernet} eliminata`, 'info');
+                    }
+                }
+            }
+        }
+        
+        function apriModaleAssegna(areaId) {
+            document.getElementById('currentAreaId').value = areaId;
+            document.getElementById('isEditMode').value = 'false';
+            document.getElementById('editSubnet').value = '';
+            document.getElementById('subnetAddress').value = '';
+            document.getElementById('clienteNome').value = '';
+            document.getElementById('clienteIndirizzo').value = '';
+            document.getElementById('clienteTelefono').value = '';
+            document.getElementById('ipApparato').value = '';
+            document.getElementById('subnetInfo').innerHTML = '';
+            document.getElementById('conflictWarning').innerHTML = '';
+            apparatiTempAssign = [];
+            aggiornaApparatiUIAssign();
+            
+            document.querySelectorAll('.cidr-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById('saveButton').disabled = false;
+            document.getElementById('saveButton').innerHTML = '💾 Assegna Blocco';
+            document.getElementById('modalTitle').innerHTML = 'Assegna Blocco CIDR';
+            
+            document.getElementById('assignModal').style.display = 'block';
+        }
+
+        function apriModificaBlocco(areaId, subnet) {
+            const area = dati.aree.find(a => a.id === areaId);
+            const blocco = area.blocchiAssegnati[subnet];
+            
+            if (!blocco) {
+                mostraNotifica('Errore: blocco non trovato', 'error');
+                return;
+            }
+            
+            document.getElementById('currentAreaId').value = areaId;
+            document.getElementById('isEditMode').value = 'true';
+            document.getElementById('editSubnet').value = subnet;
+            document.getElementById('subnetAddress').value = subnet;
+            document.getElementById('clienteNome').value = blocco.cliente || '';
+            document.getElementById('clienteIndirizzo').value = blocco.indirizzo || '';
+            document.getElementById('clienteTelefono').value = blocco.telefono || '';
+            document.getElementById('ipApparato').value = blocco.ipApparato || '';
+            apparatiTempAssign = [...(blocco.apparati || [])];
+            aggiornaApparatiUIAssign();
+            
+            const cidrNum = parseInt(subnet.split('/')[1]);
+            document.querySelectorAll('.cidr-btn').forEach(btn => btn.classList.remove('selected'));
+            const targetBtn = document.querySelector(`.cidr-btn[data-cidr="${cidrNum}"]`);
+            if (targetBtn) targetBtn.classList.add('selected');
+            
+            aggiornaInfoSubnet();
+            
+            document.getElementById('saveButton').innerHTML = '💾 Salva Modifiche';
+            document.getElementById('modalTitle').innerHTML = 'Modifica Assegnazione';
+            document.getElementById('assignModal').style.display = 'block';
+        }
+        
+        function selezionaCIDR(cidr) {
+            document.querySelectorAll('.cidr-btn').forEach(btn => btn.classList.remove('selected'));
+            document.querySelector(`.cidr-btn[data-cidr="${cidr}"]`).classList.add('selected');
+            
+            const subnetField = document.getElementById('subnetAddress');
+            if (subnetField.value && !subnetField.value.includes('/')) {
+                const parts = subnetField.value.split('.');
+                if (parts.length === 4) {
+                    subnetField.value = `${subnetField.value}/${cidr}`;
+                }
+            }
+            aggiornaInfoSubnet();
+        }
+        
+        function aggiornaInfoSubnet() {
+            const subnet = document.getElementById('subnetAddress').value.trim();
+            const info = calcolaSubnetInfo(subnet);
+            
+            if (info) {
+                if (info.isSingleIP) {
+                    document.getElementById('subnetInfo').innerHTML = `🖥️ IP Singolo: ${info.network}`;
+                } else {
+                    document.getElementById('subnetInfo').innerHTML = `
+                        🌐 Network: ${info.network}<br>
+                        📡 Broadcast: ${info.broadcast}<br>
+                        📊 IP totali: ${info.totalIPs}<br>
+                        ✅ IP utilizzabili: ${info.usableIPs}
+                    `;
+                }
+                
+                // Verifica conflitto
+                const areaId = parseInt(document.getElementById('currentAreaId').value);
+                const area = dati.aree.find(a => a.id === areaId);
+                const isEdit = document.getElementById('isEditMode').value === 'true';
+                const editSubnet = document.getElementById('editSubnet').value;
+                
+                if (area && subnet) {
+                    const verifica = verificaConflittoBlocco(area, subnet, isEdit ? editSubnet : null);
+                    const warningDiv = document.getElementById('conflictWarning');
+                    const subnetField = document.getElementById('subnetAddress');
+                    const saveBtn = document.getElementById('saveButton');
+                    
+                    if (verifica.conflitto) {
+                        warningDiv.innerHTML = verifica.messaggio;
+                        subnetField.classList.add('error-border');
+                        saveBtn.disabled = true;
+                    } else {
+                        warningDiv.innerHTML = verifica.messaggio;
+                        subnetField.classList.remove('error-border');
+                        saveBtn.disabled = false;
+                    }
+                }
+            } else if (subnet) {
+                document.getElementById('subnetInfo').innerHTML = '<span style="color:#e74c3c;">Formato non valido</span>';
+            }
+        }
+        
+        function aggiungiApparatoAssign(apparato) {
+            if (apparatiTempAssign.length >= 3) {
+                mostraNotifica('Massimo 3 apparati', 'error');
+                return;
+            }
+            
+            if (apparato === 'Altro') {
+                const altro = prompt('Nome apparato:');
+                if (altro && altro.trim()) {
+                    apparatiTempAssign.push(altro.trim());
+                }
+            } else {
+                apparatiTempAssign.push(apparato);
+            }
+            aggiornaApparatiUIAssign();
+        }
+        
+        function rimuoviApparatoAssign(index) {
+            apparatiTempAssign.splice(index, 1);
+            aggiornaApparatiUIAssign();
+        }
+        
+        function aggiornaApparatiUIAssign() {
+            const container = document.getElementById('apparatiSelezionatiAssign');
+            container.innerHTML = '';
+            apparatiTempAssign.forEach((app, index) => {
+                const badge = document.createElement('div');
+                badge.className = 'apparato-badge';
+                badge.innerHTML = `${app} <span style="cursor:pointer; margin-left:5px;" onclick="rimuoviApparatoAssign(${index})">❌</span>`;
+                container.appendChild(badge);
+            });
+        }
+        
+        function salvaAssegnazioneBlocco() {
+            const areaId = parseInt(document.getElementById('currentAreaId').value);
+            const subnet = document.getElementById('subnetAddress').value.trim();
+            const nome = document.getElementById('clienteNome').value.trim();
+            const indirizzo = document.getElementById('clienteIndirizzo').value.trim();
+            const telefono = document.getElementById('clienteTelefono').value.trim();
+            const ipApparato = document.getElementById('ipApparato').value.trim();
+            const isEdit = document.getElementById('isEditMode').value === 'true';
+            const editSubnet = document.getElementById('editSubnet').value;
+            
+            if (!subnet) {
+                mostraNotifica('Inserisci la subnet', 'error');
+                return;
+            }
+            
+            if (!nome) {
+                mostraNotifica('Inserisci il nome del cliente', 'error');
+                return;
+            }
+            
+            const area = dati.aree.find(a => a.id === areaId);
+            if (!area) {
+                mostraNotifica('Area non trovata', 'error');
+                return;
+            }
+            
+            const subnetInfo = calcolaSubnetInfo(subnet);
+            if (!subnetInfo) {
+                mostraNotifica('Formato subnet non valido', 'error');
+                return;
+            }
+            
+            // Verifica conflitto
+            const verifica = verificaConflittoBlocco(area, subnet, isEdit ? editSubnet : null);
+            if (verifica.conflitto) {
+                mostraNotifica(verifica.messaggio, 'error');
+                return;
+            }
+            
+            // Se è modifica e la subnet è cambiata, elimina la vecchia
+            if (isEdit && editSubnet !== subnet) {
+                delete area.blocchiAssegnati[editSubnet];
+            }
+            
+            // Crea o aggiorna il blocco
+            area.blocchiAssegnati[subnet] = {
+                cliente: nome,
+                indirizzo: indirizzo,
+                telefono: telefono,
+                apparati: [...apparatiTempAssign],
+                ipApparato: ipApparato || null,
+                dataAssegnazione: isEdit && area.blocchiAssegnati[subnet]?.dataAssegnazione ? 
+                    area.blocchiAssegnati[subnet].dataAssegnazione : new Date().toISOString(),
+                dataModifica: isEdit ? new Date().toISOString() : null,
+                subnetInfo: subnetInfo
+            };
+            
+            debugLog('Salvataggio blocco:', subnet, nome);
+            
+            if (salvaDati()) {
+                chiudiModalAssign();
+                renderizzaAree();
+                mostraNotifica(`${isEdit ? 'Modificato' : 'Assegnato'} blocco ${subnet} a ${nome}`, 'success');
+            }
+        }
+        
+        function apriModaleModificaCliente(areaId, subnet) {
+            const area = dati.aree.find(a => a.id === areaId);
+            const blocco = area.blocchiAssegnati[subnet];
+            
+            if (!blocco) {
+                mostraNotifica('Errore: cliente non trovato', 'error');
+                return;
+            }
+            
+            document.getElementById('editAreaId').value = areaId;
+            document.getElementById('editSubnetId').value = subnet;
+            document.getElementById('editClienteNome').value = blocco.cliente || '';
+            document.getElementById('editClienteIndirizzo').value = blocco.indirizzo || '';
+            document.getElementById('editClienteTelefono').value = blocco.telefono || '';
+            document.getElementById('editIpApparato').value = blocco.ipApparato || '';
+            
+            document.getElementById('editClienteModal').style.display = 'block';
+        }
+
+        function salvaModificaCliente() {
+            const areaId = parseInt(document.getElementById('editAreaId').value);
+            const subnet = document.getElementById('editSubnetId').value;
+            const nuovoNome = document.getElementById('editClienteNome').value.trim();
+            const nuovoIndirizzo = document.getElementById('editClienteIndirizzo').value.trim();
+            const nuovoTelefono = document.getElementById('editClienteTelefono').value.trim();
+            const nuovoIpApparato = document.getElementById('editIpApparato').value.trim();
+            
+            if (!nuovoNome) {
+                mostraNotifica('Il nome cliente è obbligatorio', 'error');
+                return;
+            }
+            
+            const area = dati.aree.find(a => a.id === areaId);
+            if (area && area.blocchiAssegnati[subnet]) {
+                area.blocchiAssegnati[subnet].cliente = nuovoNome;
+                area.blocchiAssegnati[subnet].indirizzo = nuovoIndirizzo;
+                area.blocchiAssegnati[subnet].telefono = nuovoTelefono;
+                area.blocchiAssegnati[subnet].ipApparato = nuovoIpApparato;
+                area.blocchiAssegnati[subnet].dataModifica = new Date().toISOString();
+                
+                if (salvaDati()) {
+                    chiudiEditModal();
+                    renderizzaAree();
+                    mostraNotifica(`Dati cliente ${nuovoNome} aggiornati!`, 'success');
+                }
+            }
+        }
+        
+        function eliminaBlocco(areaId, subnet) {
+            if (confirm('Eliminare questo blocco?')) {
+                const area = dati.aree.find(a => a.id === areaId);
+                if (area && area.blocchiAssegnati[subnet]) {
+                    const cliente = area.blocchiAssegnati[subnet].cliente;
+                    delete area.blocchiAssegnati[subnet];
+                    if (salvaDati()) {
+                        renderizzaAree();
+                        mostraNotifica(`Blocco ${subnet} (${cliente}) eliminato`, 'info');
+                    }
+                }
+            }
+        }
+        
+        function visualizzaDettagliBlocco(areaId, subnet) {
+            const area = dati.aree.find(a => a.id === areaId);
+            const blocco = area.blocchiAssegnati[subnet];
+            
+            if (!blocco) return;
+            
+            const content = document.getElementById('detailsContent');
+            content.innerHTML = `
+                <div class="form-group">
+                    <strong>📡 Subnet:</strong> ${subnet}<br>
+                    <strong>🌐 Network:</strong> ${blocco.subnetInfo.network}<br>
+                    <strong>📡 Broadcast:</strong> ${blocco.subnetInfo.broadcast}<br>
+                    <strong>👤 Cliente:</strong> ${blocco.cliente}<br>
+                    <strong>📍 Indirizzo:</strong> ${blocco.indirizzo || 'N/D'}<br>
+                    <strong>📞 Telefono:</strong> ${blocco.telefono || 'N/D'}<br>
+                    <strong>🖥️ Apparati:</strong> ${blocco.apparati.join(', ') || 'Nessuno'}<br>
+                    <strong>🔌 IP Apparato:</strong> ${blocco.ipApparato || 'Non specificato'}<br>
+                    <strong>📅 Assegnazione:</strong> ${new Date(blocco.dataAssegnazione).toLocaleString()}<br>
+                    ${blocco.dataModifica ? `<strong>✏️ Modifica:</strong> ${new Date(blocco.dataModifica).toLocaleString()}<br>` : ''}
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="btn-small btn-info" onclick="apriModaleModificaCliente(${areaId}, '${subnet}'); chiudiModalDetails();">✏️ Modifica Dati</button>
+                    <button class="btn-small btn-warning" onclick="apriModificaBlocco(${areaId}, '${subnet}'); chiudiModalDetails();">📝 Modifica Blocco</button>
+                </div>
+            `;
+            document.getElementById('detailsModal').style.display = 'block';
+        }
+        
+        async function caricaMonitoring() {
+            const container = document.getElementById('monitoringContainer');
+            container.innerHTML = '<p>Caricamento apparati...</p>';
+            
+            const apparati = [];
+            for (const area of dati.aree) {
+                for (const [subnet, blocco] of Object.entries(area.blocchiAssegnati)) {
+                    if (blocco.ipApparato) {
+                        apparati.push({
+                            areaId: area.id,
+                            subnet: subnet,
+                            cliente: blocco.cliente,
+                            apparati: blocco.apparati,
+                            ip: blocco.ipApparato
+                        });
+                    }
+                }
+            }
+            
+            if (apparati.length === 0) {
+                container.innerHTML = '<p>Nessun apparato configurato.</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            for (const app of apparati) {
+                const card = document.createElement('div');
+                card.className = 'monitoring-card';
+                card.innerHTML = `
+                    <h4>${app.cliente}</h4>
+                    <p><strong>Apparati:</strong> ${app.apparati.join(', ')}</p>
+                    <p><strong>IP:</strong> ${app.ip}</p>
+                    <div id="ping-${app.areaId}-${app.subnet.replace(/\//g, '-')}" class="ping-result">
+                        <button class="btn-small" onclick="pingSingoloApparato('${app.ip}')">🔍 Esegui Ping</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+        
+        async function pingSingoloApparato(ip) {
+            mostraNotifica(`Ping verso ${ip}...`, 'info');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            const online = Math.random() > 0.3;
+            mostraNotifica(`${ip} è ${online ? 'ONLINE' : 'OFFLINE'}`, online ? 'success' : 'error');
+        }
+        
+        async function pingTuttiApparati() {
+            mostraNotifica('Avvio ping a tutti gli apparati...', 'info');
+            for (const area of dati.aree) {
+                for (const [subnet, blocco] of Object.entries(area.blocchiAssegnati)) {
+                    if (blocco.ipApparato) {
+                        await pingSingoloApparato(blocco.ipApparato);
+                        await new Promise(resolve => setTimeout(resolve, 300));
+                    }
+                }
+            }
+            mostraNotifica('Ping completati!', 'success');
+        }
+        
+        function mostraIPLiberi() {
+            const container = document.getElementById('liberiContainer');
+            container.innerHTML = '';
+            
+            for (const area of dati.aree) {
+                const supernetInfo = calcolaSubnetInfo(area.supernet);
+                if (!supernetInfo || supernetInfo.isSingleIP) continue;
+                
+                const tuttiIP = [];
+                for (let i = supernetInfo.startInt; i <= supernetInfo.endInt; i++) {
+                    tuttiIP.push(intToIp(i));
+                }
+                
+                const assegnati = new Set();
+                for (const [subnet, blocco] of Object.entries(area.blocchiAssegnati)) {
+                    const info = calcolaSubnetInfo(subnet);
+                    if (info) {
+                        for (let i = info.startInt; i <= info.endInt; i++) {
+                            assegnati.add(intToIp(i));
+                        }
+                    }
+                }
+                
+                const ipLiberi = tuttiIP.filter(ip => !assegnati.has(ip));
+                
+                const areaDiv = document.createElement('div');
+                areaDiv.className = 'area-card';
+                areaDiv.innerHTML = `
+                    <div class="area-header">
+                        <h3>${area.supernet} - ${area.utilizzo}</h3>
+                    </div>
+                    <div class="area-content active">
+                        <p><strong>IP Liberi:</strong> ${ipLiberi.length} su ${tuttiIP.length}</p>
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            ${ipLiberi.slice(0, 50).map(ip => `<span style="display: inline-block; background: #e8f5e9; padding: 5px 10px; margin: 5px; border-radius: 5px;">${ip}</span>`).join('')}
+                            ${ipLiberi.length > 50 ? `<p><em>... e altri ${ipLiberi.length - 50} IP</em></p>` : ''}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(areaDiv);
+            }
+        }
+        
+        function renderizzaAree() {
+            const container = document.getElementById('areeContainer');
+            container.innerHTML = '';
+            
+            if (!dati.aree || dati.aree.length === 0) {
+                container.innerHTML = '<div class="area-card" style="padding:20px; text-align:center;">Nessuna supernet configurata. Aggiungine una!</div>';
+                return;
+            }
+            
+            dati.aree.forEach(area => {
+                const areaCard = document.createElement('div');
+                areaCard.className = 'area-card';
+                
+                const blocchiHtml = Object.entries(area.blocchiAssegnati || {}).map(([subnet, blocco]) => `
+                    <tr class="ip-row block-assigned">
+                        <td><strong>${subnet}</strong><br>
+                            <span class="block-info">
+                                ${blocco.subnetInfo?.isSingleIP ? 
+                                    `IP: ${blocco.subnetInfo.network}` : 
+                                    `Network: ${blocco.subnetInfo?.network || '-'}<br>Broadcast: ${blocco.subnetInfo?.broadcast || '-'}`}
+                            </span>
+                        </td>
+                        <td>${blocco.cliente}${blocco.ipApparato ? `<br><span class="block-info">📡 ${blocco.ipApparato}</span>` : ''}</td>
+                        <td>${blocco.indirizzo || '-'}</td>
+                        <td>${blocco.telefono || '-'}</td>
+                        <td>${blocco.apparati?.join(', ') || '-'}</td>
+                        <td>${blocco.dataAssegnazione ? new Date(blocco.dataAssegnazione).toLocaleDateString() : '-'}</td>
+                        <td>
+                            <button class="btn-small btn-info" onclick="apriModificaBlocco(${area.id}, '${subnet}')">✏️ Modifica</button>
+                            <button class="btn-small" onclick="visualizzaDettagliBlocco(${area.id}, '${subnet}')">👁️ Dettagli</button>
+                            <button class="btn-small btn-danger" onclick="eliminaBlocco(${area.id}, '${subnet}')">🗑️ Elimina</button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                areaCard.innerHTML = `
+                    <div class="area-header" onclick="toggleArea(${area.id})">
+                        <h3>📡 ${area.supernet} - ${area.utilizzo}</h3>
+                        <div class="area-actions">
+                            <button class="btn-small btn-success" onclick="event.stopPropagation(); apriModaleAssegna(${area.id})">➕ Assegna Blocco</button>
+                            <button class="btn-small btn-danger" onclick="event.stopPropagation(); eliminaArea(${area.id})">🗑️ Elimina</button>
+                        </div>
+                    </div>
+                    <div class="area-content" id="area-${area.id}">
+                        ${Object.keys(area.blocchiAssegnati || {}).length === 0 ? 
+                            '<p style="text-align:center; padding:20px;">Nessun blocco assegnato. Clicca "Assegna Blocco" per iniziare</p>' :
+                            `<table class="ip-table">
+                                <thead>
+                                    <tr>
+                                        <th>Blocco CIDR</th>
+                                        <th>Cliente / IP</th>
+                                        <th>Indirizzo</th>
+                                        <th>Telefono</th>
+                                        <th>Apparati</th>
+                                        <th>Data</th>
+                                        <th>Azioni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${blocchiHtml}</tbody>
+                            </table>`
+                        }
+                    </div>
+                `;
+                container.appendChild(areaCard);
+            });
+        }
+        
+        function toggleArea(areaId) {
+            const content = document.getElementById(`area-${areaId}`);
+            if (content) content.classList.toggle('active');
+        }
+        
+        function chiudiModalAssign() {
+            document.getElementById('assignModal').style.display = 'none';
+            apparatiTempAssign = [];
+        }
+        
+        function chiudiModalDetails() {
+            document.getElementById('detailsModal').style.display = 'none';
+        }
+        
+        function chiudiEditModal() {
+            document.getElementById('editClienteModal').style.display = 'none';
+        }
+        
+        // Event listeners
+        document.getElementById('subnetAddress').addEventListener('input', aggiornaInfoSubnet);
+        
+        // Check login status
+        if (sessionStorage.getItem('loggedIn') === 'true') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            caricaDati();
+            renderizzaAree();
+        }
+        
+        window.onclick = function(event) {
+            const modals = ['assignModal', 'detailsModal', 'editClienteModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    if (modalId === 'assignModal') chiudiModalAssign();
+                    if (modalId === 'detailsModal') chiudiModalDetails();
+                    if (modalId === 'editClienteModal') chiudiEditModal();
                 }
             });
         }
-
-        function updateSummary() {
-            const selectedRadio = document.querySelector('input[name="serviceChoice"]:checked');
-            if (!selectedRadio) {
-                selectedServiceNameSpan.innerText = 'Nessuna selezione';
-                activationCostSpan.innerText = '€ 0,00';
-                monthlyFeeSpan.innerText = '€ 0,00';
-                modemFeeSpan.innerText = '€ 0,00';
-                totalFirstMonthSpan.innerText = '€ 0,00';
-                recurringMonthSpan.innerText = '€ 0,00';
-                holaDiscountBadge.style.display = 'none';
-                holaMessageRow.innerHTML = '';
-                return;
+        
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') {
+                login();
             }
-
-            const selectedValue = selectedRadio.value;
-            let targetRow = null;
-            const rows = document.querySelectorAll('#servicesTable tbody tr');
-            for (let row of rows) {
-                const radio = row.querySelector('input[type="radio"]');
-                if (radio && radio.value === selectedValue) {
-                    targetRow = row;
-                    break;
-                }
-            }
-            if (!targetRow) return;
-
-            const serviceDataAttr = targetRow.getAttribute('data-service');
-            if (!serviceDataAttr) return;
-            let serviceInfo;
-            try {
-                serviceInfo = JSON.parse(serviceDataAttr);
-            } catch(e) { return; }
-
-            if (serviceInfo.project === true) {
-                selectedServiceNameSpan.innerText = 'Linea Dedicata sino a 40 Gbps (costo a progetto)';
-                activationCostSpan.innerText = 'Su preventivo';
-                monthlyFeeSpan.innerText = 'Su preventivo';
-                modemFeeSpan.innerText = 'Su preventivo';
-                totalFirstMonthSpan.innerText = 'Da definire';
-                recurringMonthSpan.innerText = 'Da definire';
-                holaDiscountBadge.style.display = 'none';
-                holaMessageRow.innerHTML = '📋 Per la linea dedicata contattare il commerciale (preventivo personalizzato)';
-                return;
-            }
-
-            let activation = serviceInfo.activation;
-            const monthly = serviceInfo.monthlyFee;
-            const modem = serviceInfo.modem;
-            const holafibraActive = isHolafibraProvenienza();
-            let originalActivation = activation;
-            if (holafibraActive && activation === 59) {
-                activation = 0;
-            }
-            
-            const firstMonthTotal = activation + monthly + modem;
-            const recurring = monthly + modem;
-
-            let displayName = '';
-            if (serviceInfo.name === 'FWA Wireless 50 Mbps') displayName = 'FWA Wireless sino a 50 Mbps';
-            else if (serviceInfo.name === 'FWA Wireless 300 Mbps') displayName = 'FWA Wireless sino a 300 Mbps';
-            else if (serviceInfo.name === 'FWA Wireless 2800 Mbps') displayName = 'FWA Wireless sino a 2800 Mbps';
-            else if (serviceInfo.name === 'FTTC Rame') displayName = 'FTTC connessione rame sino a 100 Mbps';
-            else if (serviceInfo.name === 'FTTH Fibra') displayName = 'FTTH fibra sino a 2,5 Gbps';
-            else displayName = serviceInfo.name;
-
-            selectedServiceNameSpan.innerText = displayName;
-            
-            if (holafibraActive && originalActivation === 59) {
-                holaDiscountBadge.style.display = 'inline-block';
-                holaMessageRow.innerHTML = '🎉 Promozione Holafibra attiva: costo di attivazione €59 azzerato! Installazione gratuita.';
-                activationCostSpan.innerHTML = `€ 0,00 <span style="font-size:0.7rem;">(gratis promo)</span>`;
-            } else {
-                holaDiscountBadge.style.display = 'none';
-                activationCostSpan.innerHTML = `€ ${originalActivation.toFixed(2)}`;
-                if (!holafibraActive && provenanceInput.value.trim() !== "") {
-                    holaMessageRow.innerHTML = 'ℹ️ Per installazione gratuita, devi provenire da Holafibra Srl (scrivilo nel campo provenienza).';
-                } else if (!holafibraActive) {
-                    holaMessageRow.innerHTML = '';
-                } else {
-                    holaMessageRow.innerHTML = '';
-                }
-            }
-
-            monthlyFeeSpan.innerHTML = `€ ${monthly.toFixed(2)}`;
-            modemFeeSpan.innerHTML = `€ ${modem.toFixed(2)}`;
-            totalFirstMonthSpan.innerHTML = `€ ${firstMonthTotal.toFixed(2)}`;
-            recurringMonthSpan.innerHTML = `€ ${recurring.toFixed(2)}`;
-        }
-
-        function refreshAll() {
-            updateActivationCellsDisplay();
-            updateSummary();
-        }
-
-        radioButtons.forEach(radio => {
-            radio.addEventListener('change', refreshAll);
         });
-
-        provenanceInput.addEventListener('input', function() {
-            refreshAll();
-        });
-
-        refreshAll();
-
-        // INVIO EMAIL tramite mailto
-        const submitBtn = document.getElementById('submitOrderBtn');
-        submitBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const customerName = document.getElementById('customerName').value.trim();
-            const customerEmail = document.getElementById('customerEmail').value.trim();
-            
-            if (!customerName) {
-                alert("⚠️ Inserisci il nome del cliente per procedere.");
-                return;
-            }
-            if (!customerEmail) {
-                alert("⚠️ Inserisci l'email del cliente per poter inviare l'ordine.");
-                return;
-            }
-            
-            const selectedRadio = document.querySelector('input[name="serviceChoice"]:checked');
-            if (!selectedRadio) {
-                alert("⚠️ Seleziona un servizio residenziale o richiedi preventivo per Dedicata.");
-                return;
-            }
-
-            // Raccolta dati
-            const customerFiscal = document.getElementById('customerFiscal').value.trim() || "non indicato";
-            const customerAddress = document.getElementById('customerAddress').value.trim() || "non specificato";
-            const customerPhone = document.getElementById('customerPhone').value.trim() || "-";
-            const signDate = document.getElementById('signDate').value.trim() || new Date().toLocaleDateString('it-IT');
-            const digitalSignature = document.getElementById('digitalSignature').value.trim() || "firma acquisita digitalmente";
-            const provenienza = provenanceInput.value.trim() || "non indicata";
-            const note = document.getElementById('note').value.trim() || "nessuna nota";
-            const holafibraActive = isHolafibraProvenienza();
-
-            // Recupera servizio selezionato
-            let selectedRow = null;
-            for (let row of document.querySelectorAll('#servicesTable tbody tr')) {
-                const radio = row.querySelector('input[type="radio"]');
-                if (radio && radio.checked) { selectedRow = row; break; }
-            }
-            
-            let serviceDesc = "";
-            let activationValue = 59;
-            let monthlyVal = 0, modemVal = 0;
-            let isDedicated = false;
-            let speedInfo = "";
-
-            if (selectedRow) {
-                const dataAttr = selectedRow.getAttribute('data-service');
-                if (dataAttr) {
-                    const svc = JSON.parse(dataAttr);
-                    if (svc.project) {
-                        isDedicated = true;
-                        serviceDesc = "Linea Dedicata sino a 40 Gbps - preventivo su misura";
-                    } else {
-                        activationValue = svc.activation;
-                        monthlyVal = svc.monthlyFee;
-                        modemVal = svc.modem;
-                        speedInfo = svc.speed || "";
-                        if (holafibraActive && activationValue === 59) activationValue = 0;
-                        serviceDesc = `${svc.name} - ${speedInfo} | Attivazione: ${activationValue === 0 ? 'GRATUITA (promo Holafibra)' : '€'+svc.activation.toFixed(2)} | Canone: €${monthlyVal.toFixed(2)}/mese | Modem: €${modemVal.toFixed(2)}/mese`;
-                    }
-                }
-            }
-
-            const promoText = holafibraActive ? "✅ INSTALLAZIONE GRATUITA - promozione provenienza Holafibra Srl applicata (€59 di attivazione azzerati)" : "❌ Nessuna promo installazione attiva (attivazione standard €59)";
-            const totalFirstMonthCalc = !isDedicated ? (activationValue + monthlyVal + modemVal).toFixed(2) : "da definire su preventivo";
-            const recurringCalc = !isDedicated ? (monthlyVal + modemVal).toFixed(2) : "da definire su preventivo";
-
-            // Costruzione corpo email
-            const subject = encodeURIComponent(`NUOVO ORDINE da ${customerName} - Easyfibra Srl`);
-            const body = encodeURIComponent(`
-📄 NUOVO ORDINE DA MODULO WEB
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📌 DATI CLIENTE:
-------------------
-Nome / Ragione Sociale: ${customerName}
-Codice Fiscale / P.IVA: ${customerFiscal}
-Indirizzo installazione: ${customerAddress}
-Email: ${customerEmail}
-Telefono: ${customerPhone}
-Provenienza indicata: ${provenienza}
-Data ordine: ${signDate}
-Note aggiuntive: ${note}
-
-📡 SERVIZIO RICHIESTO:
-------------------
-${serviceDesc}
-
-🎁 PROMOZIONE APPLICATA:
-------------------
-${promoText}
-
-💰 DETTAGLIO ECONOMICO (IVA inclusa):
-------------------
-${!isDedicated ? `• Costo attivazione: € ${activationValue.toFixed(2)}
-• Canone mensile: € ${monthlyVal.toFixed(2)}
-• Noleggio modem mensile: € ${modemVal.toFixed(2)}
-• Totale primo mese: € ${totalFirstMonthCalc}
-• Canone ricorrente (dal 2° mese): € ${recurringCalc}` : '• Preventivo personalizzato per linea dedicata'}
-
-✍️ ACCETTAZIONE:
-------------------
-Firma: ${digitalSignature}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Generato dal modulo ordine Easyfibra Srl
-Rappresentante: Sig. Valli Fabrizio - Tel. 3356489002
-Easyfibra Srl - Via Napole
+    </script>
+</body>
+</html>
